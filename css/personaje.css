@@ -1,0 +1,48 @@
+{
+  "personajes": [
+    {
+      "id": "hon-go",
+      "nombre": "Hon-Go",
+      "subtitulo": "El Honguito del Bosque",
+      "descripcion": "Tierno, sabio y protector del bosque. Hon-Go conoce los secretos de la naturaleza y ayuda a los viajeros perdidos a encontrar su camino. Siempre lleva consigo trozos de madera y magia natural.",
+      "tags": ["Bondadoso", "Sabio", "Protector", "Natural"],
+      "colores": ["#8B4513", "#4A7C3F", "#F5DEB3", "#CC2222", "#A0856C", "#D4C4A8"],
+      "imagen_thumbnail": "assets/personajes/hon-go/thumbnail.png",
+      "imagen_hero": "assets/personajes/hon-go/hero.png",
+      "vistas": {
+        "frente":        "assets/personajes/hon-go/frente.png",
+        "atras":         "assets/personajes/hon-go/atras.png",
+        "lado_derecho":  "assets/personajes/hon-go/lado-derecho.png",
+        "lado_izquierdo":"assets/personajes/hon-go/lado-izquierdo.png"
+      },
+      "poses": [
+        { "nombre": "Saludando",   "imagen": "assets/personajes/hon-go/pose-saludando.png" },
+        { "nombre": "Pensando",    "imagen": "assets/personajes/hon-go/pose-pensando.png" },
+        { "nombre": "Protegiendo", "imagen": "assets/personajes/hon-go/pose-protegiendo.png" },
+        { "nombre": "Explorando",  "imagen": "assets/personajes/hon-go/pose-explorando.png" },
+        { "nombre": "Guiando",     "imagen": "assets/personajes/hon-go/pose-guiando.png" },
+        { "nombre": "Sorprendido", "imagen": "assets/personajes/hon-go/pose-sorprendido.png" }
+      ],
+      "accesorios": [
+        { "nombre": "Trozos de madera", "imagen": "assets/personajes/hon-go/acc-madera.png" },
+        { "nombre": "Pócima natural",   "imagen": "assets/personajes/hon-go/acc-pocima.png" },
+        { "nombre": "Hoja mágica",      "imagen": "assets/personajes/hon-go/acc-hoja.png" },
+        { "nombre": "Mochila de explorador", "imagen": "assets/personajes/hon-go/acc-mochila.png" }
+      ],
+      "wireframes": [
+        "assets/personajes/hon-go/wireframe-1.png",
+        "assets/personajes/hon-go/wireframe-2.png",
+        "assets/personajes/hon-go/wireframe-3.png"
+      ],
+      "concepto_original": "assets/personajes/hon-go/concepto.png",
+      "herramientas": ["Maya", "Photoshop", "Herramientas de Animación y Modelado", "Marmoset Toolbag 4"],
+      "especificaciones": {
+        "poligonos": "58,972",
+        "vertices":  "30,421",
+        "texturas":  "4K",
+        "rigging":   "Sí",
+        "animacion": "Sí"
+      }
+    }
+  ]
+}

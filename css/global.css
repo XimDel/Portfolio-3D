@@ -1,0 +1,256 @@
+/* ═══════════════════════════════════════════
+   GLOBAL.CSS — Variables, Reset, Navbar, Footer
+═══════════════════════════════════════════ */
+
+/* ── Google Fonts backup ── */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Bangers&display=swap');
+
+/* ── Variables de color y tipografía ── */
+:root {
+  --color-purple:      #7C3AED;
+  --color-purple-light:#A855F7;
+  --color-purple-dark: #5B21B6;
+  --color-pink:        #EC4899;
+  --color-yellow:      #F59E0B;
+  --color-white:       #FFFFFF;
+  --color-bg:          #F8F7FF;
+  --color-card:        #FFFFFF;
+  --color-text:        #1E1B2E;
+  --color-text-muted:  #6B7280;
+  --color-border:      #E5E7EB;
+
+  --font-display: 'Bangers', cursive;
+  --font-body:    'Nunito', sans-serif;
+
+  --radius-card: 20px;
+  --shadow-card: 0 4px 24px rgba(124, 58, 237, 0.10);
+  --shadow-hover: 0 8px 40px rgba(124, 58, 237, 0.22);
+
+  --navbar-height: 70px;
+}
+
+/* ── Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-bg);
+  color: var(--color-text);
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+/* ═══════════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════════ */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: var(--navbar-height);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  padding: 0 2.5rem;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, var(--color-purple), var(--color-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-links a {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--color-text-muted);
+  transition: color 0.2s;
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--color-purple);
+}
+
+.nav-links a.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-purple);
+  border-radius: 2px;
+}
+
+.btn-cta {
+  background: linear-gradient(135deg, var(--color-purple), var(--color-purple-light));
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 0.55rem 1.2rem;
+  border-radius: 50px;
+  white-space: nowrap;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.35);
+}
+
+.btn-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
+}
+
+/* Hamburger - solo mobile */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--color-purple);
+}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+.footer {
+  background: var(--color-text);
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.82rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-logo {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, var(--color-purple-light), var(--color-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ═══════════════════════════════════════════
+   UTILIDADES COMPARTIDAS
+═══════════════════════════════════════════ */
+.section-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  letter-spacing: 3px;
+  color: var(--color-purple);
+  margin-bottom: 1.5rem;
+}
+
+/* Botón volver (usado en páginas interiores) */
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--color-purple);
+  margin-bottom: 1.5rem;
+  transition: gap 0.2s;
+}
+
+.btn-back:hover {
+  gap: 0.7rem;
+}
+
+/* Tags de características */
+.tag {
+  display: inline-block;
+  padding: 0.3rem 0.9rem;
+  border-radius: 50px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border: 1.5px solid currentColor;
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE — NAVBAR
+═══════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .nav-links,
+  .btn-cta {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: block;
+  }
+
+  /* Mobile menu abierto */
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: var(--navbar-height);
+    left: 0;
+    right: 0;
+    background: var(--color-white);
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--color-border);
+    gap: 1.2rem;
+  }
+
+  .nav-links.open + .btn-cta {
+    display: none;
+  }
+}
