@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Escenario | Portafolio 3D</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Bangers&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../css/global.css"/>
+  <link rel="stylesheet" href="../css/escenario.css"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="../index.html" class="nav-logo">JR</a>
+    <ul class="nav-links">
+      <li><a href="../index.html">HOME</a></li>
+      <li><a href="../index.html#about">ABOUT ME</a></li>
+      <li><a href="../index.html#skills">SKILLS</a></li>
+      <li><a href="index.html" class="active">SCENARIOS</a></li>
+      <li><a href="../personajes/index.html">CHARACTERS</a></li>
+      <li><a href="../index.html#contact">CONTACT</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Abrir menú">☰</button>
+  </nav>
+
+  <main id="escenario-main" class="escenario-page">
+
+    <!-- Loading -->
+    <div id="loading-state" class="loading-state">
+      <div class="spinner"></div>
+      <p>Cargando escenario...</p>
+    </div>
+
+    <!-- Error -->
+    <div id="error-state" class="error-state hidden">
+      <p>No se encontró el escenario.</p>
+      <a href="../index.html#escenarios" class="btn-back">← Volver a escenarios</a>
+    </div>
+
+    <!-- Contenido -->
+    <div id="escenario-content" class="hidden">
+
+      <!-- HERO -->
+      <section class="e-hero">
+        <div class="e-hero-bg" id="e-hero-bg"></div>
+        <div class="e-hero-inner">
+          <a href="../index.html#escenarios" class="btn-back">← VOLVER A ESCENARIOS</a>
+          <div class="e-hero-text">
+            <h1 class="e-hero-title" id="e-nombre"></h1>
+            <p class="e-hero-subtitle" id="e-subtitulo"></p>
+            <p class="e-hero-desc" id="e-descripcion"></p>
+            <div class="e-tags" id="e-tags"></div>
+          </div>
+          <div class="e-hero-img">
+            <img id="e-img-hero" src="" alt=""/>
+          </div>
+        </div>
+      </section>
+
+      <!-- VISTAS DEL ESCENARIO -->
+      <section class="e-section e-vistas-section">
+        <h2 class="e-section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          VISTAS DEL ESCENARIO ↗
+        </h2>
+        <div class="e-vistas-grid" id="e-vistas-grid"></div>
+      </section>
+
+      <!-- WIREFRAME + TEXTURAS + PALETA -->
+      <section class="e-section e-mid-grid">
+
+        <div class="e-card e-wireframe-card">
+          <h2 class="e-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            WIREFRAME ↗
+          </h2>
+          <div class="e-wireframe-img">
+            <img id="e-wireframe-img" src="" alt="Wireframe" loading="lazy"/>
+          </div>
+        </div>
+
+        <div class="e-card e-texturas-card">
+          <h2 class="e-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+            TEXTURAS ↗
+          </h2>
+          <div class="e-texturas-inner">
+            <div class="e-texturas-preview">
+              <img id="e-texturas-img" src="" alt="Texturas" loading="lazy"/>
+            </div>
+            <div class="e-texturas-info">
+              <p class="e-texturas-tipo" id="e-texturas-tipo"></p>
+              <ul class="e-texturas-mapas" id="e-texturas-mapas"></ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="e-card e-paleta-card">
+          <h2 class="e-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20C7 22 2 17 2 12"/></svg>
+            PALETA DE COLORES
+          </h2>
+          <div class="e-paleta" id="e-paleta"></div>
+        </div>
+
+      </section>
+
+      <!-- DETALLES DESTACADOS -->
+      <section class="e-section e-detalles-section">
+        <h2 class="e-section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          DETALLES DESTACADOS
+        </h2>
+        <div class="e-detalles-grid" id="e-detalles-grid"></div>
+      </section>
+
+      <!-- MODULARIDAD + PROCESO + SPECS -->
+      <section class="e-section e-bottom-grid">
+
+        <div class="e-card e-modularidad-card">
+          <h2 class="e-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"><rect x="2" y="2" width="9" height="9"/><rect x="13" y="2" width="9" height="9"/><rect x="2" y="13" width="9" height="9"/><rect x="13" y="13" width="9" height="9"/></svg>
+            MODULARIDAD
+          </h2>
+          <div class="e-modularidad-img">
+            <img id="e-modularidad-img" src="" alt="Modularidad" loading="lazy"/>
+          </div>
+          <p class="e-modularidad-desc" id="e-modularidad-desc"></p>
+        </div>
+
+        <div class="e-card e-proceso-card">
+          <h2 class="e-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            PROCESO
+          </h2>
+          <div class="e-proceso-steps" id="e-proceso-steps"></div>
+        </div>
+
+        <div class="e-card e-specs-card">
+          <h2 class="e-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            ESPECIFICACIONES
+          </h2>
+          <div class="e-specs-list" id="e-specs-list"></div>
+        </div>
+
+      </section>
+
+      <!-- INFORMACIÓN TÉCNICA -->
+      <section class="e-section e-info-tecnica-section">
+        <h2 class="e-section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          INFORMACIÓN TÉCNICA
+        </h2>
+        <div class="e-info-grid" id="e-info-grid"></div>
+      </section>
+
+    </div><!-- /escenario-content -->
+  </main>
+
+  <footer class="footer">
+    <span class="footer-logo">JR</span>
+    <p>© 2025 Jairo Rincón · Todos los derechos reservados</p>
+  </footer>
+
+  <script src="../js/escenario.js"></script>
+</body>
+</html>

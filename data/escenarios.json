@@ -1,0 +1,56 @@
+{
+  "escenarios": [
+    {
+      "id": "casa-del-mercader",
+      "nombre": "Casa del Mercader",
+      "subtitulo": "Tienda en el Camino",
+      "descripcion": "Una acogedora tienda de mercader situada junto al camino principal. Lugar de descanso para viajeros y comerciantes. Construida con materiales resistentes y decorada con objetos que cuentan historias.",
+      "tags": ["Estilizado", "Fantasía", "Modular", "Handpainted"],
+      "colores": ["#7D4E2D", "#5A5A3A", "#7A9A4A", "#C8A84B", "#8A8A7A", "#9A3030"],
+      "imagen_thumbnail": "assets/escenarios/casa-mercader/thumbnail.png",
+      "imagen_hero": "assets/escenarios/casa-mercader/hero.png",
+      "vistas": {
+        "frontal":   "assets/escenarios/casa-mercader/vista-frontal.png",
+        "trasera":   "assets/escenarios/casa-mercader/vista-trasera.png",
+        "derecha":   "assets/escenarios/casa-mercader/vista-derecha.png",
+        "izquierda": "assets/escenarios/casa-mercader/vista-izquierda.png"
+      },
+      "wireframe": "assets/escenarios/casa-mercader/wireframe.png",
+      "texturas": {
+        "imagen":    "assets/escenarios/casa-mercader/texturas-preview.png",
+        "tipo":      "Mapas PBR 4K",
+        "mapas":     ["Albedo", "Normal", "Roughness", "Metallic", "AO"]
+      },
+      "detalles": [
+        "assets/escenarios/casa-mercader/detalle-1.png",
+        "assets/escenarios/casa-mercader/detalle-2.png",
+        "assets/escenarios/casa-mercader/detalle-3.png",
+        "assets/escenarios/casa-mercader/detalle-4.png",
+        "assets/escenarios/casa-mercader/detalle-5.png"
+      ],
+      "modularidad": {
+        "imagen":      "assets/escenarios/casa-mercader/modularidad.png",
+        "descripcion": "Diseño modular para facilitar su reutilización en diferentes entornos."
+      },
+      "proceso": [
+        { "nombre": "Concepto",   "imagen": "assets/escenarios/casa-mercader/proceso-concepto.png" },
+        { "nombre": "Blockout",   "imagen": "assets/escenarios/casa-mercader/proceso-blockout.png" },
+        { "nombre": "Texturizado","imagen": "assets/escenarios/casa-mercader/proceso-texturizado.png" }
+      ],
+      "especificaciones": {
+        "poligonos":   "85,432",
+        "vertices":    "87,362",
+        "texturas":    "4K",
+        "materiales":  "7",
+        "renderizado": "Marmoset Toolbag 4"
+      },
+      "info_tecnica": {
+        "software":      "Maya / Photoshop",
+        "herramientas":  "Animación y Modelado",
+        "estilo":        "Estilizado",
+        "iluminacion":   "PBR",
+        "optimizacion":  "Game Ready"
+      }
+    }
+  ]
+}

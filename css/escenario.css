@@ -1,56 +1,510 @@
-{
-  "escenarios": [
-    {
-      "id": "casa-del-mercader",
-      "nombre": "Casa del Mercader",
-      "subtitulo": "Tienda en el Camino",
-      "descripcion": "Una acogedora tienda de mercader situada junto al camino principal. Lugar de descanso para viajeros y comerciantes. Construida con materiales resistentes y decorada con objetos que cuentan historias.",
-      "tags": ["Estilizado", "Fantasía", "Modular", "Handpainted"],
-      "colores": ["#7D4E2D", "#5A5A3A", "#7A9A4A", "#C8A84B", "#8A8A7A", "#9A3030"],
-      "imagen_thumbnail": "assets/escenarios/casa-mercader/thumbnail.png",
-      "imagen_hero": "assets/escenarios/casa-mercader/hero.png",
-      "vistas": {
-        "frontal":   "assets/escenarios/casa-mercader/vista-frontal.png",
-        "trasera":   "assets/escenarios/casa-mercader/vista-trasera.png",
-        "derecha":   "assets/escenarios/casa-mercader/vista-derecha.png",
-        "izquierda": "assets/escenarios/casa-mercader/vista-izquierda.png"
-      },
-      "wireframe": "assets/escenarios/casa-mercader/wireframe.png",
-      "texturas": {
-        "imagen":    "assets/escenarios/casa-mercader/texturas-preview.png",
-        "tipo":      "Mapas PBR 4K",
-        "mapas":     ["Albedo", "Normal", "Roughness", "Metallic", "AO"]
-      },
-      "detalles": [
-        "assets/escenarios/casa-mercader/detalle-1.png",
-        "assets/escenarios/casa-mercader/detalle-2.png",
-        "assets/escenarios/casa-mercader/detalle-3.png",
-        "assets/escenarios/casa-mercader/detalle-4.png",
-        "assets/escenarios/casa-mercader/detalle-5.png"
-      ],
-      "modularidad": {
-        "imagen":      "assets/escenarios/casa-mercader/modularidad.png",
-        "descripcion": "Diseño modular para facilitar su reutilización en diferentes entornos."
-      },
-      "proceso": [
-        { "nombre": "Concepto",   "imagen": "assets/escenarios/casa-mercader/proceso-concepto.png" },
-        { "nombre": "Blockout",   "imagen": "assets/escenarios/casa-mercader/proceso-blockout.png" },
-        { "nombre": "Texturizado","imagen": "assets/escenarios/casa-mercader/proceso-texturizado.png" }
-      ],
-      "especificaciones": {
-        "poligonos":   "85,432",
-        "vertices":    "87,362",
-        "texturas":    "4K",
-        "materiales":  "7",
-        "renderizado": "Marmoset Toolbag 4"
-      },
-      "info_tecnica": {
-        "software":      "Maya / Photoshop",
-        "herramientas":  "Animación y Modelado",
-        "estilo":        "Estilizado",
-        "iluminacion":   "PBR",
-        "optimizacion":  "Game Ready"
-      }
-    }
-  ]
+/* ═══════════════════════════════════════════
+   ESCENARIO.CSS
+═══════════════════════════════════════════ */
+
+body { padding-top: var(--navbar-height); }
+
+.hidden { display: none !important; }
+
+/* ── Loading / Error ── */
+.loading-state,
+.error-state {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: var(--color-text-muted);
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-purple);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ════════════════════════════════
+   HERO
+════════════════════════════════ */
+.e-hero {
+  position: relative;
+  min-height: 520px;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.e-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.e-hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: blur(2px) brightness(0.9);
+  transform: scale(1.05);
+}
+
+.e-hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(255,255,255,0.96) 40%,
+    rgba(255,255,255,0.55) 65%,
+    rgba(255,255,255,0.05) 100%
+  );
+}
+
+.e-hero-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.e-hero-text {
+  max-width: 500px;
+  animation: fadeUp 0.7s ease both;
+}
+
+.e-hero-img {
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48%;
+  max-width: 520px;
+  animation: fadeUp 0.7s 0.15s ease both;
+}
+
+.e-hero-img img {
+  width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 50px rgba(0,0,0,0.22));
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.e-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  letter-spacing: 3px;
+  line-height: 1;
+  color: var(--color-purple);
+  margin-bottom: 0.3rem;
+  text-shadow: 3px 3px 0 rgba(124,58,237,0.1);
+}
+
+.e-hero-subtitle {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  color: var(--color-pink);
+  margin-bottom: 1rem;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.e-hero-desc {
+  font-size: 0.88rem;
+  line-height: 1.75;
+  color: var(--color-text-muted);
+  margin-bottom: 1.2rem;
+  max-width: 420px;
+}
+
+.e-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.e-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 0.28rem 0.85rem;
+  border-radius: 50px;
+  border: 1.5px solid currentColor;
+}
+
+.e-tag:nth-child(1) { color: #E879C0; border-color: #E879C0; }
+.e-tag:nth-child(2) { color: #7C3AED; border-color: #7C3AED; }
+.e-tag:nth-child(3) { color: #059669; border-color: #059669; }
+.e-tag:nth-child(4) { color: #0891B2; border-color: #0891B2; }
+.e-tag:nth-child(5) { color: #D97706; border-color: #D97706; }
+
+/* ════════════════════════════════
+   SECCIONES
+════════════════════════════════ */
+.e-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+}
+
+.e-section-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  color: var(--color-purple);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+}
+
+.e-card {
+  background: var(--color-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 1.8rem;
+}
+
+/* ════════════════════════════════
+   VISTAS
+════════════════════════════════ */
+.e-vistas-section {
+  background: var(--color-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.e-vistas-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.e-vista-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.e-vista-item img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: transform 0.2s;
+}
+
+.e-vista-item img:hover { transform: scale(1.03); }
+
+.e-vista-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+/* ════════════════════════════════
+   MID GRID (Wireframe + Texturas + Paleta)
+════════════════════════════════ */
+.e-mid-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 0.8fr;
+  gap: 1.5rem;
+  padding-top: 0;
+}
+
+/* Wireframe */
+.e-wireframe-img {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #efefef;
+}
+
+.e-wireframe-img img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: contain;
+  padding: 1rem;
+}
+
+/* Texturas */
+.e-texturas-inner {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.e-texturas-preview {
+  width: 100px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.e-texturas-preview img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.e-texturas-tipo {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
+
+.e-texturas-mapas {
+  list-style: disc;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.e-texturas-mapas li {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+/* Paleta */
+.e-paleta {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.e-color-swatch {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* ════════════════════════════════
+   DETALLES DESTACADOS
+════════════════════════════════ */
+.e-detalles-section {
+  padding-top: 0;
+}
+
+.e-detalles-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.8rem;
+}
+
+.e-detalle-item img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.e-detalle-item img:hover {
+  transform: scale(1.04);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+/* ════════════════════════════════
+   BOTTOM GRID (Modularidad + Proceso + Specs)
+════════════════════════════════ */
+.e-bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 0.8fr;
+  gap: 1.5rem;
+  padding-top: 0;
+}
+
+/* Modularidad */
+.e-modularidad-img {
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 0.8rem;
+  background: #f5f0ff;
+}
+
+.e-modularidad-img img {
+  width: 100%;
+  object-fit: contain;
+  padding: 0.5rem;
+}
+
+.e-modularidad-desc {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+/* Proceso */
+.e-proceso-steps {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.e-proceso-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.e-proceso-step img {
+  width: 90px;
+  aspect-ratio: 1;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #f0f0f0;
+  padding: 4px;
+}
+
+.e-proceso-step span {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.e-proceso-arrow {
+  font-size: 1.2rem;
+  color: var(--color-purple);
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+/* Specs */
+.e-specs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.e-spec-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.e-spec-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.e-spec-label svg {
+  width: 14px;
+  height: 14px;
+  color: var(--color-purple);
+  flex-shrink: 0;
+}
+
+.e-spec-value {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+/* ════════════════════════════════
+   INFO TÉCNICA
+════════════════════════════════ */
+.e-info-tecnica-section {
+  background: var(--color-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  margin-bottom: 3rem;
+}
+
+.e-info-grid {
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.e-info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  text-align: center;
+}
+
+.e-info-icon {
+  width: 28px;
+  height: 28px;
+  color: var(--color-purple);
+}
+
+.e-info-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+.e-info-value {
+  font-size: 0.85rem;
+  font-weight: 900;
+  color: var(--color-text);
+}
+
+/* ════════════════════════════════
+   RESPONSIVE
+════════════════════════════════ */
+@media (max-width: 900px) {
+  .e-hero-img { display: none; }
+
+  .e-vistas-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .e-mid-grid,
+  .e-bottom-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .e-detalles-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .e-info-grid { gap: 1.5rem; }
+}
+
+@media (max-width: 480px) {
+  .e-detalles-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .e-proceso-steps {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

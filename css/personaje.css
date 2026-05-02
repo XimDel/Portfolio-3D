@@ -1,48 +1,538 @@
-{
-  "personajes": [
-    {
-      "id": "hon-go",
-      "nombre": "Hon-Go",
-      "subtitulo": "El Honguito del Bosque",
-      "descripcion": "Tierno, sabio y protector del bosque. Hon-Go conoce los secretos de la naturaleza y ayuda a los viajeros perdidos a encontrar su camino. Siempre lleva consigo trozos de madera y magia natural.",
-      "tags": ["Bondadoso", "Sabio", "Protector", "Natural"],
-      "colores": ["#8B4513", "#4A7C3F", "#F5DEB3", "#CC2222", "#A0856C", "#D4C4A8"],
-      "imagen_thumbnail": "assets/personajes/hon-go/thumbnail.png",
-      "imagen_hero": "assets/personajes/hon-go/hero.png",
-      "vistas": {
-        "frente":        "assets/personajes/hon-go/frente.png",
-        "atras":         "assets/personajes/hon-go/atras.png",
-        "lado_derecho":  "assets/personajes/hon-go/lado-derecho.png",
-        "lado_izquierdo":"assets/personajes/hon-go/lado-izquierdo.png"
-      },
-      "poses": [
-        { "nombre": "Saludando",   "imagen": "assets/personajes/hon-go/pose-saludando.png" },
-        { "nombre": "Pensando",    "imagen": "assets/personajes/hon-go/pose-pensando.png" },
-        { "nombre": "Protegiendo", "imagen": "assets/personajes/hon-go/pose-protegiendo.png" },
-        { "nombre": "Explorando",  "imagen": "assets/personajes/hon-go/pose-explorando.png" },
-        { "nombre": "Guiando",     "imagen": "assets/personajes/hon-go/pose-guiando.png" },
-        { "nombre": "Sorprendido", "imagen": "assets/personajes/hon-go/pose-sorprendido.png" }
-      ],
-      "accesorios": [
-        { "nombre": "Trozos de madera", "imagen": "assets/personajes/hon-go/acc-madera.png" },
-        { "nombre": "Pócima natural",   "imagen": "assets/personajes/hon-go/acc-pocima.png" },
-        { "nombre": "Hoja mágica",      "imagen": "assets/personajes/hon-go/acc-hoja.png" },
-        { "nombre": "Mochila de explorador", "imagen": "assets/personajes/hon-go/acc-mochila.png" }
-      ],
-      "wireframes": [
-        "assets/personajes/hon-go/wireframe-1.png",
-        "assets/personajes/hon-go/wireframe-2.png",
-        "assets/personajes/hon-go/wireframe-3.png"
-      ],
-      "concepto_original": "assets/personajes/hon-go/concepto.png",
-      "herramientas": ["Maya", "Photoshop", "Herramientas de Animación y Modelado", "Marmoset Toolbag 4"],
-      "especificaciones": {
-        "poligonos": "58,972",
-        "vertices":  "30,421",
-        "texturas":  "4K",
-        "rigging":   "Sí",
-        "animacion": "Sí"
-      }
-    }
-  ]
+/* ═══════════════════════════════════════════
+   PERSONAJE.CSS
+═══════════════════════════════════════════ */
+
+body { padding-top: var(--navbar-height); }
+
+/* ── Helpers ── */
+.hidden { display: none !important; }
+
+/* ── Loading / Error ── */
+.loading-state,
+.error-state {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: var(--color-text-muted);
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-size: 0.85rem;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-purple);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ════════════════════════════════
+   HERO
+════════════════════════════════ */
+.p-hero {
+  position: relative;
+  min-height: 520px;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.p-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.p-hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.p-hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(255,255,255,0.97) 45%,
+    rgba(255,255,255,0.6) 70%,
+    rgba(255,255,255,0.1) 100%
+  );
+}
+
+.p-hero-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.p-hero-text {
+  max-width: 480px;
+  animation: fadeUp 0.7s ease both;
+}
+
+.p-hero-img {
+  position: absolute;
+  right: 2rem;
+  bottom: 0;
+  height: 110%;
+  display: flex;
+  align-items: flex-end;
+  animation: fadeUp 0.7s 0.15s ease both;
+}
+
+.p-hero-img img {
+  height: 100%;
+  max-height: 500px;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.18));
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.p-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 8vw, 6rem);
+  letter-spacing: 4px;
+  line-height: 1;
+  color: var(--color-purple);
+  margin-bottom: 0.3rem;
+  text-shadow: 3px 3px 0 rgba(124,58,237,0.12);
+}
+
+.p-hero-subtitle {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+  color: var(--color-pink);
+  margin-bottom: 1rem;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.p-hero-desc {
+  font-size: 0.88rem;
+  line-height: 1.75;
+  color: var(--color-text-muted);
+  margin-bottom: 1.2rem;
+  max-width: 400px;
+}
+
+.p-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.p-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 0.28rem 0.85rem;
+  border-radius: 50px;
+  border: 1.5px solid currentColor;
+}
+
+/* colores rotativos para los tags */
+.p-tag:nth-child(1) { color: #E879C0; border-color: #E879C0; }
+.p-tag:nth-child(2) { color: #7C3AED; border-color: #7C3AED; }
+.p-tag:nth-child(3) { color: #059669; border-color: #059669; }
+.p-tag:nth-child(4) { color: #0891B2; border-color: #0891B2; }
+.p-tag:nth-child(5) { color: #D97706; border-color: #D97706; }
+
+/* ════════════════════════════════
+   SECCIONES GENÉRICAS
+════════════════════════════════ */
+.p-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.p-section-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  color: var(--color-purple);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+}
+
+.p-section-title svg {
+  color: var(--color-purple);
+  flex-shrink: 0;
+}
+
+/* ════════════════════════════════
+   VISTAS DEL PERSONAJE
+════════════════════════════════ */
+.p-vistas-section {
+  background: var(--color-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  max-width: 1100px;
+  margin: 0 auto 0 auto;
+  padding: 2.5rem;
+}
+
+.p-section-inner {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 2rem;
+  align-items: start;
+}
+
+.p-vistas-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.p-vista-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.p-vista-item img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  background: linear-gradient(135deg, #f3eeff, #fce8f5);
+  border-radius: 14px;
+  padding: 0.5rem;
+  transition: transform 0.2s;
+}
+
+.p-vista-item img:hover { transform: scale(1.04); }
+
+.p-vista-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* Herramientas card */
+.p-herramientas-card {
+  background: var(--color-bg);
+  border-radius: 16px;
+  padding: 1.4rem;
+}
+
+.p-card-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 2px;
+  color: var(--color-purple);
+  margin-bottom: 1rem;
+}
+
+.p-herramientas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.p-herramienta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--color-text);
+}
+
+.p-herramienta-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  object-fit: contain;
+  background: white;
+  padding: 2px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  flex-shrink: 0;
+}
+
+/* ════════════════════════════════
+   POSES Y EXPRESIONES
+════════════════════════════════ */
+.p-poses-section {
+  background: var(--color-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.p-poses-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.p-poses-track-outer {
+  overflow: hidden;
+  flex: 1;
+}
+
+.p-poses-track {
+  display: flex;
+  gap: 1rem;
+  transition: transform 0.4s ease;
+}
+
+.p-pose-item {
+  flex: 0 0 calc(100% / 6 - 0.85rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.p-pose-item img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  background: linear-gradient(135deg, #f3eeff, #fce8f5);
+  border-radius: 14px;
+  padding: 0.4rem;
+  transition: transform 0.2s;
+}
+
+.p-pose-item img:hover { transform: translateY(-4px); }
+
+.p-pose-label {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* ════════════════════════════════
+   BOTTOM GRID (Accesorios + Wireframe + Paleta)
+════════════════════════════════ */
+.p-bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  gap: 1.5rem;
+  max-width: 1100px;
+  padding: 0 2rem 3rem;
+}
+
+.p-card {
+  background: var(--color-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 1.8rem;
+}
+
+/* Accesorios */
+.p-accesorios-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.p-accesorio-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.p-accesorio-item img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  background: linear-gradient(135deg, #f3eeff, #fce8f5);
+  border-radius: 12px;
+  padding: 6px;
+}
+
+.p-accesorio-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* Wireframe */
+.p-wireframe-carousel {
+  overflow: hidden;
+  border-radius: 12px;
+  background: #f0f0f0;
+  margin-bottom: 0.8rem;
+}
+
+.p-wireframe-track {
+  display: flex;
+  transition: transform 0.4s ease;
+}
+
+.p-wireframe-track img {
+  flex: 0 0 100%;
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: contain;
+  padding: 1rem;
+  background: #efefef;
+}
+
+.p-wireframe-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.p-wireframe-dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-border);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.p-wireframe-dots span.active {
+  background: var(--color-purple);
+}
+
+/* Paleta */
+.p-paleta {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.p-color-swatch {
+  flex: 1;
+  height: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Concepto */
+.p-concepto {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f8f8f8;
+  margin-top: 0.5rem;
+}
+
+.p-concepto img {
+  width: 100%;
+  object-fit: contain;
+}
+
+/* ════════════════════════════════
+   SPECS
+════════════════════════════════ */
+.p-specs-section {
+  background: var(--color-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  margin-bottom: 3rem;
+}
+
+.p-specs-grid {
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.p-spec-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  text-align: center;
+}
+
+.p-spec-icon {
+  width: 32px;
+  height: 32px;
+  color: var(--color-purple);
+}
+
+.p-spec-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+.p-spec-value {
+  font-size: 1rem;
+  font-weight: 900;
+  color: var(--color-text);
+}
+
+/* ════════════════════════════════
+   RESPONSIVE
+════════════════════════════════ */
+@media (max-width: 900px) {
+  .p-section-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .p-herramientas-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .p-bottom-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .p-hero-img {
+    display: none;
+  }
+
+  .p-vistas-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .p-pose-item {
+    flex: 0 0 calc(100% / 3 - 0.7rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .p-vistas-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .p-pose-item {
+    flex: 0 0 calc(100% / 2 - 0.5rem);
+  }
+
+  .p-specs-grid {
+    gap: 1.5rem;
+  }
 }
