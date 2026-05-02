@@ -1,8 +1,38 @@
 /* ═══════════════════════════════════════════
-   MAIN.JS — Landing page: carga JSON, carrusel, navbar
+   MAIN.JS — Landing: scroll reveal, carrusel, JSON
 ═══════════════════════════════════════════ */
 
-// ── Navbar toggle mobile ──
+// ════════════════════════════════
+// SCROLL REVEAL con IntersectionObserver
+// Observa todos los .reveal-up y .reveal-left
+// y les añade .visible cuando entran en pantalla
+// ════════════════════════════════
+const revealObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // Una vez visible, dejamos de observar
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  },
+  {
+    threshold: 0.12,      // se activa cuando el 12% del elemento es visible
+    rootMargin: '0px 0px -40px 0px'  // un poco antes de llegar al borde
+  }
+);
+
+// Observar todos los elementos con clase reveal al cargar
+function initReveal() {
+  document.querySelectorAll('.reveal-up, .reveal-left').forEach(el => {
+    revealObserver.observe(el);
+  });
+}
+
+// ════════════════════════════════
+// NAVBAR toggle mobile
+// ════════════════════════════════
 const navToggle = document.querySelector('.nav-toggle');
 const navLinks  = document.querySelector('.nav-links');
 
@@ -12,26 +42,28 @@ if (navToggle) {
   });
 }
 
-// Cierra el menú al hacer clic en un enlace
 document.querySelectorAll('.nav-links a').forEach(link => {
   link.addEventListener('click', () => navLinks.classList.remove('open'));
 });
 
-// ── Carga dinámica de Escenarios ──
+// ════════════════════════════════
+// CARGA DINÁMICA DE ESCENARIOS
+// ════════════════════════════════
 async function cargarEscenarios() {
   const grid = document.getElementById('escenarios-grid');
   if (!grid) return;
 
   try {
-    const res  = await fetch('../data/escenarios.json');
+    const res  = await fetch('data/escenarios.json');
     const data = await res.json();
 
     grid.innerHTML = '';
 
-    data.escenarios.forEach(escenario => {
+    data.escenarios.forEach((escenario, i) => {
       const link = document.createElement('a');
-      link.href  = `escenarios/index.html?id=${escenario.id}`;
-      link.className = 'showcase-item';
+      link.href      = `escenarios/index.html?id=${escenario.id}`;
+      link.className = 'showcase-item reveal-up';
+      link.style.setProperty('--delay', `${i * 0.08}s`);
 
       link.innerHTML = `
         <img src="${escenario.imagen_thumbnail}" alt="${escenario.nombre}" loading="lazy"/>
@@ -43,24 +75,28 @@ async function cargarEscenarios() {
       grid.appendChild(link);
     });
 
+    // Observar los items recién creados
+    grid.querySelectorAll('.reveal-up').forEach(el => revealObserver.observe(el));
+
   } catch (err) {
     console.warn('No se pudo cargar escenarios.json:', err);
-    // Mantiene los placeholders si el JSON no existe todavía
   }
 }
 
-// ── Carga dinámica de Personajes (carrusel) ──
-let carouselIndex  = 0;
-let carouselItems  = [];
-const VISIBLE_CARDS = 5; // cuántos se ven a la vez en desktop
+// ════════════════════════════════
+// CARGA DINÁMICA DE PERSONAJES (carrusel)
+// ════════════════════════════════
+let carouselIndex = 0;
+let carouselItems = [];
+const VISIBLE_CARDS = 5;
 
 async function cargarPersonajes() {
-  const carousel = document.getElementById('personajes-carousel');
+  const carousel      = document.getElementById('personajes-carousel');
   const dotsContainer = document.getElementById('carousel-dots');
   if (!carousel) return;
 
   try {
-    const res  = await fetch('../data/personajes.json');
+    const res  = await fetch('data/personajes.json');
     const data = await res.json();
 
     carouselItems = data.personajes;
@@ -68,7 +104,7 @@ async function cargarPersonajes() {
 
     carouselItems.forEach(personaje => {
       const link = document.createElement('a');
-      link.href  = `personajes/index.html?id=${personaje.id}`;
+      link.href      = `personajes/index.html?id=${personaje.id}`;
       link.className = 'personaje-card';
 
       link.innerHTML = `
@@ -81,7 +117,7 @@ async function cargarPersonajes() {
       carousel.appendChild(link);
     });
 
-    // Crear dots de paginación
+    // Dots de paginación
     const totalDots = Math.ceil(carouselItems.length / VISIBLE_CARDS);
     dotsContainer.innerHTML = '';
 
@@ -103,12 +139,14 @@ function actualizarCarrusel() {
   const carousel = document.getElementById('personajes-carousel');
   if (!carousel) return;
 
-  const cardWidth = carousel.querySelector('.personaje-card')?.offsetWidth || 0;
-  const gap = 16; // 1rem
-  carousel.style.transform = `translateX(-${carouselIndex * (cardWidth + gap) * VISIBLE_CARDS}px)`;
-  carousel.style.transition = 'transform 0.4s ease';
+  const card = carousel.querySelector('.personaje-card');
+  if (!card) return;
 
-  // Actualizar dots
+  const cardWidth = card.offsetWidth;
+  const gap = 16;
+  carousel.style.transform  = `translateX(-${carouselIndex * (cardWidth + gap) * VISIBLE_CARDS}px)`;
+  carousel.style.transition = 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)';
+
   document.querySelectorAll('#carousel-dots span').forEach((dot, i) => {
     dot.classList.toggle('active', i === carouselIndex);
   });
@@ -120,7 +158,6 @@ function moverCarrusel(index) {
   actualizarCarrusel();
 }
 
-// Botones prev/next
 document.getElementById('prev-personaje')?.addEventListener('click', () => {
   moverCarrusel(carouselIndex - 1);
 });
@@ -129,6 +166,9 @@ document.getElementById('next-personaje')?.addEventListener('click', () => {
   moverCarrusel(carouselIndex + 1);
 });
 
-// ── Init ──
+// ════════════════════════════════
+// INIT
+// ════════════════════════════════
+initReveal();
 cargarEscenarios();
 cargarPersonajes();
