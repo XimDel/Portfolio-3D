@@ -7,17 +7,17 @@
 
 /* ── Variables de color y tipografía ── */
 :root {
-  --color-purple:      #7C3AED;
-  --color-purple-light:#A855F7;
-  --color-purple-dark: #5B21B6;
-  --color-pink:        #EC4899;
-  --color-yellow:      #F59E0B;
+  --color-purple:      #2563EB; 
+  --color-purple-light:#3B82F6; 
+  --color-purple-dark: #1D4ED8; 
+  --color-pink:        #10B981; 
+  --color-yellow:      #F59E0B;  
   --color-white:       #FFFFFF;
-  --color-bg:          #F8F7FF;
+  --color-bg:          #F0F4FF; 
   --color-card:        #FFFFFF;
-  --color-text:        #1E1B2E;
-  --color-text-muted:  #6B7280;
-  --color-border:      #E5E7EB;
+  --color-text:        #0F172A;
+  --color-text-muted:  #475569;
+  --color-border:      #CBD5E1;
 
   --font-display: 'Bangers', cursive;
   --font-body:    'Nunito', sans-serif;
