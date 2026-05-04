@@ -7,35 +7,35 @@
       "descripcion": "Tierno, sabio y protector del bosque. Hon-Go conoce los secretos de la naturaleza y ayuda a los viajeros perdidos a encontrar su camino. Siempre lleva consigo trozos de madera y magia natural.",
       "tags": ["Bondadoso", "Sabio", "Protector", "Natural"],
       "colores": ["#8B4513", "#4A7C3F", "#F5DEB3", "#CC2222", "#A0856C", "#D4C4A8"],
-      "imagen_thumbnail": "assets/personajes/hon-go/thumbnail.png",
-      "imagen_hero": "assets/personajes/hon-go/hero.png",
+      "imagen_thumbnail": "../assets/personajes/hon-go/thumbnail.png",
+      "imagen_hero": "../assets/personajes/hon-go/thumbnail.png",
       "vistas": {
-        "frente":         "assets/personajes/hon-go/frente.png",
-        "atras":          "assets/personajes/hon-go/atras.png",
-        "lado_derecho":   "assets/personajes/hon-go/lado-derecho.png",
-        "lado_izquierdo": "assets/personajes/hon-go/lado-izquierdo.png"
+        "frente":         "../assets/personajes/hon-go/frente.png",
+        "atras":          "../assets/personajes/hon-go/atras.png",
+        "lado_derecho":   "../assets/personajes/hon-go/lado-derecho.png",
+        "lado_izquierdo": "../assets/personajes/hon-go/lado-izquierdo.png"
       },
-      "herramientas": ["Maya", "Photoshop", "Marmoset Toolbag"],
+      "herramientas": ["Maya", "Photoshop", "Marmoset Toolbag 4"],
       "especificaciones": {
         "poligonos": "58,972",
         "vertices":  "30,421",
         "texturas":  "4K"
       },
       "detalles": [
-        { "nombre": "Detalle 1", "imagen": "assets/personajes/hon-go/detalle-1.png" },
-        { "nombre": "Detalle 2", "imagen": "assets/personajes/hon-go/detalle-2.png" },
-        { "nombre": "Detalle 3", "imagen": "assets/personajes/hon-go/detalle-3.png" },
-        { "nombre": "Detalle 4", "imagen": "assets/personajes/hon-go/detalle-4.png" },
-        { "nombre": "Detalle 5", "imagen": "assets/personajes/hon-go/detalle-5.png" },
-        { "nombre": "Detalle 6", "imagen": "assets/personajes/hon-go/detalle-6.png" }
+        { "nombre": "Saludando",   "imagen": "../assets/personajes/hon-go/pose-saludando.png" },
+        { "nombre": "Pensando",    "imagen": "../assets/personajes/hon-go/pose-pensando.png" },
+        { "nombre": "Protegiendo", "imagen": "../assets/personajes/hon-go/pose-protegiendo.png" },
+        { "nombre": "Explorando",  "imagen": "../assets/personajes/hon-go/pose-explorando.png" },
+        { "nombre": "Guiando",     "imagen": "../assets/personajes/hon-go/pose-guiando.png" },
+        { "nombre": "Sorprendido", "imagen": "../assets/personajes/hon-go/pose-sorprendido.png" }
       ],
-      "concepto_original": "assets/personajes/hon-go/concepto.png",
+      "concepto_original": "../assets/personajes/hon-go/concepto.png",
       "wireframes": [
-        "assets/personajes/hon-go/wireframe-1.png",
-        "assets/personajes/hon-go/wireframe-2.png",
-        "assets/personajes/hon-go/wireframe-3.png"
+        "../assets/personajes/hon-go/wireframe-1.png",
+        "../assets/personajes/hon-go/wireframe-2.png",
+        "../assets/personajes/hon-go/wireframe-3.png"
       ],
-      "modelo_glb": "assets/personajes/hon-go/hon-go.glb"
+      "modelo_glb": "../assets/personajes/hon-go/hon-go.glb"
     }
   ]
 }

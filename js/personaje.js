@@ -148,8 +148,14 @@ async function cargarPersonaje() {
     heroImg.src = p.imagen_hero;
     heroImg.alt = p.nombre;
 
+    // Fondo hero: blur suave de la misma imagen
     const heroBg = document.getElementById('p-hero-bg');
     heroBg.innerHTML = `<img src="${p.imagen_hero}" alt=""/>`;
+
+    // Si hay imagen_bg separada en el JSON, úsala para el fondo
+    if (p.imagen_bg) {
+      heroBg.innerHTML = `<img src="${p.imagen_bg}" alt=""/>`;
+    }
 
     const tagsEl = document.getElementById('p-tags');
     tagsEl.innerHTML = p.tags.map(t => `<span class="p-tag">${t}</span>`).join('');
