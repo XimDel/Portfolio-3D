@@ -305,20 +305,19 @@ body { padding-top: var(--navbar-height); }
 }
 
 .p-herramienta-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
+  width: 52px;
+  height: 52px;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
   object-fit: contain;
-  background: white;
-  padding: 4px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  flex-shrink: 0;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease;
 }
 
 .p-herramienta-item:hover .p-herramienta-icon {
-  transform: scale(1.25) translateY(-3px);
-  box-shadow: 0 8px 20px rgba(124,58,237,0.2);
+  transform: scale(1.3) translateY(-3px);
+  box-shadow: none;
 }
 
 .p-paleta {

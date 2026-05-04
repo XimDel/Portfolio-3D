@@ -1,6 +1,67 @@
 {
   "personajes": [
     {
+      "id": "rusty",
+      "nombre": "Rusty",
+      "subtitulo": "El Robot Curioso",
+      "descripcion": "Personaje creado en el curso Fundamentos de la Producción en 3D del instituto Animum de España. Modelado en MAYA y texturizado en Substance Painter 3D con materiales metálicos oxidados.\n\nRusty es un pequeño autómata de apariencia antigua, inspirado en un robot salido de un taller olvidado. Su pintura amarilla desgastada, marcas de óxido y detalles mecánicos cuentan la historia de una máquina vieja pero llena de personalidad.\n\nEl diseño combina una silueta amigable con un acabado industrial deteriorado para transmitir curiosidad, ternura y antigüedad.",
+      
+      "tags": [
+        "Robot",
+        "Curioso",
+        "Metálico",
+        "Oxidado"
+      ],
+
+      "colores": [
+        "#D6B347",
+        "#7A4A2A",
+        "#1F1F1F",
+        "#6E6E6E",
+        "#C2C2C2"
+      ],
+
+      "imagen_thumbnail": "../assets/personajes/rusty/thumbnail.png",
+      "imagen_hero": "../assets/personajes/rusty/thumbnail.png",
+
+      "vistas": {
+        "frente": "../assets/personajes/rusty/frente.png",
+        "atras": "../assets/personajes/rusty/atras.png",
+        "lado_derecho": "../assets/personajes/rusty/lado-derecho.png",
+        "lado_izquierdo": "../assets/personajes/rusty/lado-izquierdo.png"
+      },
+
+      "herramientas": [
+        "Maya",
+        "Substance Painter",
+        "Arnold Render"
+      ],
+
+      "especificaciones": {
+        "poligonos": "3,178",
+        "vertices": "3,277",
+        "texturas": "2K"
+      },
+
+      "detalles": [
+        { "nombre": "Detalle 1", "imagen": "../assets/personajes/rusty/detalle-1.png" },
+        { "nombre": "Detalle 2", "imagen": "../assets/personajes/rusty/detalle-2.png" },
+        { "nombre": "Detalle 3", "imagen": "../assets/personajes/rusty/detalle-3.png" },
+        { "nombre": "Detalle 4", "imagen": "../assets/personajes/rusty/detalle-4.png" }
+      ],
+
+      "concepto_original": "../assets/personajes/rusty/concepto.png",
+
+      "wireframes": [
+        "../assets/personajes/rusty/wireframe-1.png",
+        "../assets/personajes/rusty/wireframe-2.png",
+        "../assets/personajes/rusty/wireframe-3.png"
+      ],
+
+      "modelo_glb": "../assets/personajes/rusty/rusty.glb"
+    },
+
+    {
       "id": "hon-go",
       "nombre": "Hon-Go",
       "subtitulo": "El Honguito del Bosque",
@@ -10,24 +71,24 @@
       "imagen_thumbnail": "../assets/personajes/hon-go/thumbnail.png",
       "imagen_hero": "../assets/personajes/hon-go/thumbnail.png",
       "vistas": {
-        "frente":         "../assets/personajes/hon-go/frente.png",
-        "atras":          "../assets/personajes/hon-go/atras.png",
-        "lado_derecho":   "../assets/personajes/hon-go/lado-derecho.png",
+        "frente": "../assets/personajes/hon-go/frente.png",
+        "atras": "../assets/personajes/hon-go/atras.png",
+        "lado_derecho": "../assets/personajes/hon-go/lado-derecho.png",
         "lado_izquierdo": "../assets/personajes/hon-go/lado-izquierdo.png"
       },
       "herramientas": ["Maya", "Photoshop", "Marmoset Toolbag 4"],
       "especificaciones": {
         "poligonos": "58,972",
-        "vertices":  "30,421",
-        "texturas":  "4K"
+        "vertices": "30,421",
+        "texturas": "4K"
       },
       "detalles": [
-        { "nombre": "Saludando",   "imagen": "../assets/personajes/hon-go/pose-saludando.png" },
-        { "nombre": "Pensando",    "imagen": "../assets/personajes/hon-go/pose-pensando.png" },
-        { "nombre": "Protegiendo", "imagen": "../assets/personajes/hon-go/pose-protegiendo.png" },
-        { "nombre": "Explorando",  "imagen": "../assets/personajes/hon-go/pose-explorando.png" },
-        { "nombre": "Guiando",     "imagen": "../assets/personajes/hon-go/pose-guiando.png" },
-        { "nombre": "Sorprendido", "imagen": "../assets/personajes/hon-go/pose-sorprendido.png" }
+        { "nombre": "Detalle 1", "imagen": "assets/personajes/hon-go/detalle-1.png" },
+        { "nombre": "Detalle 2", "imagen": "assets/personajes/hon-go/detalle-2.png" },
+        { "nombre": "Detalle 3", "imagen": "assets/personajes/hon-go/detalle-3.png" },
+        { "nombre": "Detalle 4", "imagen": "assets/personajes/hon-go/detalle-4.png" },
+        { "nombre": "Detalle 5", "imagen": "assets/personajes/hon-go/detalle-5.png" },
+        { "nombre": "Detalle 6", "imagen": "assets/personajes/hon-go/detalle-6.png" }
       ],
       "concepto_original": "../assets/personajes/hon-go/concepto.png",
       "wireframes": [

@@ -39,7 +39,7 @@ const SPEC_ICONS = {
 const SPEC_LABELS = {
   poligonos: 'Polígonos',
   vertices:  'Vértices',
-  texturas:  'Texturas',
+  texturas:  'Resolución',
 };
 
 /* ════════════════════════════════════════════
@@ -129,8 +129,8 @@ function initGradientMesh(rawColors) {
       const { r, g, b } = colors[i];
       const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
       // opacidad máxima 0.55 en el centro, cae a 0 en el borde
-      grad.addColorStop(0,    `rgba(${r},${g},${b}, 0.82)`);
-      grad.addColorStop(0.35, `rgba(${r},${g},${b}, 0.38)`);
+      grad.addColorStop(0,    `rgba(${r},${g},${b}, 0.50)`);
+      grad.addColorStop(0.35, `rgba(${r},${g},${b}, 0.35)`);
       grad.addColorStop(1,    `rgba(${r},${g},${b}, 0.00)`);
 
       // source-over: se superponen suavemente sin oscurecer
