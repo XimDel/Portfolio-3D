@@ -359,6 +359,28 @@ async function cargarPersonaje() {
           environment-image="neutral"
           style="width:100%;height:100%;min-height:220px;border-radius:10px;"
         ></model-viewer>`;
+/*
+modelWrap.innerHTML = `
+  <model-viewer
+    src="${p.modelo_glb}"
+    alt="Modelo 3D de ${p.nombre}"
+    poster="${p.imagen_hero}"
+    auto-rotate
+    auto-rotate-delay="500"
+    rotation-per-second="18deg"
+    camera-controls
+    shadow-intensity="1.2"
+    shadow-softness="0.7"
+    environment-image="legacy"
+    exposure="1.1"
+    tone-mapping="commerce"
+    min-camera-orbit="auto 60deg auto"
+    max-camera-orbit="auto 120deg auto"
+    style="width:100%;height:100%;min-height:220px;border-radius:10px;"
+  ></model-viewer>
+`;
+
+*/
     } else {
       modelWrap.innerHTML = `
         <div class="p-model-placeholder">
