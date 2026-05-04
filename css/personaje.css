@@ -1,10 +1,9 @@
 /* ═══════════════════════════════════════════
-   PERSONAJE.CSS
+   PERSONAJE.CSS — Redesigned Layout
 ═══════════════════════════════════════════ */
 
 body { padding-top: var(--navbar-height); }
 
-/* ── Helpers ── */
 .hidden { display: none !important; }
 
 /* ── Loading / Error ── */
@@ -150,7 +149,6 @@ body { padding-top: var(--navbar-height); }
   border: 1.5px solid currentColor;
 }
 
-/* colores rotativos para los tags */
 .p-tag:nth-child(1) { color: #E879C0; border-color: #E879C0; }
 .p-tag:nth-child(2) { color: #7C3AED; border-color: #7C3AED; }
 .p-tag:nth-child(3) { color: #059669; border-color: #059669; }
@@ -158,17 +156,38 @@ body { padding-top: var(--navbar-height); }
 .p-tag:nth-child(5) { color: #D97706; border-color: #D97706; }
 
 /* ════════════════════════════════
-   SECCIONES GENÉRICAS
+   LAYOUT WRAPPER — toda la página bajo el hero
 ════════════════════════════════ */
-.p-section {
+.personaje-page {
+  display: block;
+}
+
+/* Wrapper que da el padding horizontal consistente a todo */
+.p-content-wrap {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 3rem 2rem;
+  padding: 2rem 2rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
+
+/* ════════════════════════════════
+   SECCIÓN VISTAS
+════════════════════════════════ */
+.p-vistas-section {
+  background: var(--color-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 2rem;
+}
+
+/* columna izquierda de vistas */
+.p-vistas-left {}
 
 .p-section-title {
   font-family: var(--font-display);
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   letter-spacing: 2px;
   color: var(--color-purple);
   display: flex;
@@ -180,25 +199,6 @@ body { padding-top: var(--navbar-height); }
 .p-section-title svg {
   color: var(--color-purple);
   flex-shrink: 0;
-}
-
-/* ════════════════════════════════
-   VISTAS DEL PERSONAJE
-════════════════════════════════ */
-.p-vistas-section {
-  background: var(--color-card);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card);
-  max-width: 1100px;
-  margin: 0 auto 0 auto;
-  padding: 2.5rem;
-}
-
-.p-section-inner {
-  display: grid;
-  grid-template-columns: 1fr 220px;
-  gap: 2rem;
-  align-items: start;
 }
 
 .p-vistas-grid {
@@ -234,83 +234,223 @@ body { padding-top: var(--navbar-height); }
   text-align: center;
 }
 
-/* Herramientas card */
-.p-herramientas-card {
-  background: var(--color-bg);
-  border-radius: 16px;
-  padding: 1.4rem;
+/* ════════════════════════════════
+   ROW INFO: herramientas | paleta | specs
+════════════════════════════════ */
+.p-info-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+.p-sidebar-card {
+  background: var(--color-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 1.4rem 1.4rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+/* card de info técnica centra su contenido */
+.p-sidebar-card--center {
+  justify-content: center;
+  align-items: center;
+}
+
+.p-sidebar-card--center .p-section-title {
+  align-self: flex-start;
 }
 
 .p-card-title {
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 0.95rem;
   letter-spacing: 2px;
   color: var(--color-purple);
-  margin-bottom: 1rem;
+  margin-bottom: 0.9rem;
 }
 
+/* Herramientas — layout horizontal con hover */
 .p-herramientas-list {
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  align-items: center;
+  padding-top: 0.4rem;
 }
 
 .p-herramienta-item {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.6rem;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  color: var(--color-text);
+  gap: 0.4rem;
+  cursor: default;
+}
+
+.p-herramienta-item span {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  text-align: center;
 }
 
 .p-herramienta-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
   object-fit: contain;
   background: white;
-  padding: 2px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  padding: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   flex-shrink: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.p-herramienta-item:hover .p-herramienta-icon {
+  transform: scale(1.25) translateY(-3px);
+  box-shadow: 0 8px 20px rgba(124,58,237,0.2);
+}
+
+/* Paleta de colores — swatches con animación */
+.p-paleta {
+  display: flex;
+  gap: 6px;
+  padding-top: 0.4rem;
+  width: 100%;
+}
+
+.p-color-swatch {
+  flex: 1;
+  height: 38px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, height 0.2s ease;
+  position: relative;
+}
+
+.p-color-swatch:hover {
+  transform: translateY(-5px) scaleX(1.08);
+  height: 48px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Specs — centrado con hover glow en icono */
+.p-specs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  width: 100%;
+}
+
+.p-spec-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  text-align: center;
+  padding: 0.5rem 0.2rem;
+  border-radius: 10px;
+  transition: background 0.2s;
+  cursor: default;
+}
+
+.p-spec-item:hover {
+  background: rgba(124,58,237,0.06);
+}
+
+.p-spec-icon {
+  width: 28px;
+  height: 28px;
+  color: var(--color-purple);
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.p-spec-item:hover .p-spec-icon {
+  transform: scale(1.3) translateY(-2px);
+  filter: drop-shadow(0 0 6px rgba(124,58,237,0.5));
+}
+
+.p-spec-label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+.p-spec-value {
+  font-size: 0.9rem;
+  font-weight: 900;
+  color: var(--color-text);
 }
 
 /* ════════════════════════════════
-   POSES Y EXPRESIONES
+   DETALLES — carrusel con flechas
 ════════════════════════════════ */
-.p-poses-section {
+.p-detalles-section {
   background: var(--color-card);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
+  padding: 2rem;
 }
 
-.p-poses-wrapper {
+.p-detalles-wrapper {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.p-poses-track-outer {
+.carousel-btn {
+  background: var(--color-bg);
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--color-purple);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.carousel-btn:hover {
+  background: var(--color-purple);
+  color: white;
+  border-color: var(--color-purple);
+}
+
+.p-detalles-track-outer {
   overflow: hidden;
   flex: 1;
 }
 
-.p-poses-track {
+.p-detalles-track {
   display: flex;
   gap: 1rem;
   transition: transform 0.4s ease;
 }
 
-.p-pose-item {
-  flex: 0 0 calc(100% / 6 - 0.85rem);
+.p-detalle-item {
+  flex: 0 0 calc(25% - 0.75rem);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
 }
 
-.p-pose-item img {
+.p-detalle-item img {
   width: 100%;
   aspect-ratio: 1;
   object-fit: contain;
@@ -320,9 +460,9 @@ body { padding-top: var(--navbar-height); }
   transition: transform 0.2s;
 }
 
-.p-pose-item img:hover { transform: translateY(-4px); }
+.p-detalle-item img:hover { transform: translateY(-4px); }
 
-.p-pose-label {
+.p-detalle-label {
   font-size: 0.65rem;
   font-weight: 800;
   letter-spacing: 1px;
@@ -331,71 +471,63 @@ body { padding-top: var(--navbar-height); }
 }
 
 /* ════════════════════════════════
-   BOTTOM GRID (Accesorios + Wireframe + Paleta)
+   FILA INFERIOR: Concepto | Wireframe | Modelo 3D
 ════════════════════════════════ */
 .p-bottom-grid {
   display: grid;
-  grid-template-columns: 1fr 1.4fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
-  max-width: 1100px;
-  padding: 0 2rem 3rem;
+  align-items: stretch;
 }
 
 .p-card {
   background: var(--color-card);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
-  padding: 1.8rem;
-}
-
-/* Accesorios */
-.p-accesorios-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-}
-
-.p-accesorio-item {
+  padding: 1.6rem;
   display: flex;
   flex-direction: column;
+}
+
+/* Concepto original */
+.p-concepto {
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f8f8f8;
+  margin-top: 0.6rem;
+  flex: 1;
+  display: flex;
   align-items: center;
-  gap: 0.4rem;
 }
 
-.p-accesorio-item img {
-  width: 70px;
-  height: 70px;
+.p-concepto img {
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  background: linear-gradient(135deg, #f3eeff, #fce8f5);
-  border-radius: 12px;
-  padding: 6px;
+  display: block;
 }
 
-.p-accesorio-label {
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  color: var(--color-text-muted);
-  text-align: center;
-}
-
-/* Wireframe */
+/* Wireframe carrusel */
 .p-wireframe-carousel {
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 10px;
   background: #f0f0f0;
   margin-bottom: 0.8rem;
+  margin-top: 0.6rem;
+  flex: 1;
 }
 
 .p-wireframe-track {
   display: flex;
   transition: transform 0.4s ease;
+  height: 100%;
 }
 
 .p-wireframe-track img {
   flex: 0 0 100%;
   width: 100%;
-  aspect-ratio: 4/3;
+  height: 100%;
+  min-height: 220px;
   object-fit: contain;
   padding: 1rem;
   background: #efefef;
@@ -416,94 +548,63 @@ body { padding-top: var(--navbar-height); }
   transition: background 0.2s;
 }
 
+/* card de wireframe necesita flex-direction column para que el carrusel se estire */
+.p-wireframe-card {
+  display: flex;
+  flex-direction: column;
+}
+
 .p-wireframe-dots span.active {
   background: var(--color-purple);
 }
 
-/* Paleta */
-.p-paleta {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 0.5rem;
-}
-
-.p-color-swatch {
-  flex: 1;
-  height: 40px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-/* Concepto */
-.p-concepto {
-  border-radius: 12px;
+/* Modelo 3D interactivo */
+.p-model-viewer-wrap {
+  margin-top: 0.6rem;
+  border-radius: 10px;
   overflow: hidden;
-  background: #f8f8f8;
-  margin-top: 0.5rem;
-}
-
-.p-concepto img {
-  width: 100%;
-  object-fit: contain;
-}
-
-/* ════════════════════════════════
-   SPECS
-════════════════════════════════ */
-.p-specs-section {
-  background: var(--color-card);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card);
-  margin-bottom: 3rem;
-}
-
-.p-specs-grid {
+  background: linear-gradient(135deg, #f3eeff, #fce8f5);
+  flex: 1;
+  min-height: 220px;
   display: flex;
-  gap: 2.5rem;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
-.p-spec-item {
+.p-model-viewer-wrap model-viewer {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  border-radius: 10px;
+  --progress-bar-color: var(--color-purple);
+}
+
+.p-model-placeholder {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.3rem;
-  text-align: center;
-}
-
-.p-spec-icon {
-  width: 32px;
-  height: 32px;
-  color: var(--color-purple);
-}
-
-.p-spec-label {
-  font-size: 0.65rem;
+  justify-content: center;
+  gap: 0.6rem;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 1px;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
+  text-align: center;
+  padding: 1.5rem;
 }
 
-.p-spec-value {
-  font-size: 1rem;
-  font-weight: 900;
-  color: var(--color-text);
+.p-model-placeholder svg {
+  color: var(--color-purple);
+  opacity: 0.5;
 }
 
 /* ════════════════════════════════
    RESPONSIVE
 ════════════════════════════════ */
 @media (max-width: 900px) {
-  .p-section-inner {
+  .p-info-row {
     grid-template-columns: 1fr;
-  }
-
-  .p-herramientas-card {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    gap: 1rem;
   }
 
   .p-bottom-grid {
@@ -518,8 +619,8 @@ body { padding-top: var(--navbar-height); }
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .p-pose-item {
-    flex: 0 0 calc(100% / 3 - 0.7rem);
+  .p-detalle-item {
+    flex: 0 0 calc(50% - 0.5rem);
   }
 }
 
@@ -528,11 +629,11 @@ body { padding-top: var(--navbar-height); }
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .p-pose-item {
-    flex: 0 0 calc(100% / 2 - 0.5rem);
+  .p-specs-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 
-  .p-specs-grid {
-    gap: 1.5rem;
+  .p-detalle-item {
+    flex: 0 0 calc(50% - 0.5rem);
   }
 }

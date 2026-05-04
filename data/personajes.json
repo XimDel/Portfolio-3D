@@ -10,39 +10,32 @@
       "imagen_thumbnail": "assets/personajes/hon-go/thumbnail.png",
       "imagen_hero": "assets/personajes/hon-go/hero.png",
       "vistas": {
-        "frente":        "assets/personajes/hon-go/frente.png",
-        "atras":         "assets/personajes/hon-go/atras.png",
-        "lado_derecho":  "assets/personajes/hon-go/lado-derecho.png",
-        "lado_izquierdo":"assets/personajes/hon-go/lado-izquierdo.png"
+        "frente":         "assets/personajes/hon-go/frente.png",
+        "atras":          "assets/personajes/hon-go/atras.png",
+        "lado_derecho":   "assets/personajes/hon-go/lado-derecho.png",
+        "lado_izquierdo": "assets/personajes/hon-go/lado-izquierdo.png"
       },
-      "poses": [
-        { "nombre": "Saludando",   "imagen": "assets/personajes/hon-go/pose-saludando.png" },
-        { "nombre": "Pensando",    "imagen": "assets/personajes/hon-go/pose-pensando.png" },
-        { "nombre": "Protegiendo", "imagen": "assets/personajes/hon-go/pose-protegiendo.png" },
-        { "nombre": "Explorando",  "imagen": "assets/personajes/hon-go/pose-explorando.png" },
-        { "nombre": "Guiando",     "imagen": "assets/personajes/hon-go/pose-guiando.png" },
-        { "nombre": "Sorprendido", "imagen": "assets/personajes/hon-go/pose-sorprendido.png" }
+      "herramientas": ["Maya", "Photoshop", "Marmoset Toolbag"],
+      "especificaciones": {
+        "poligonos": "58,972",
+        "vertices":  "30,421",
+        "texturas":  "4K"
+      },
+      "detalles": [
+        { "nombre": "Detalle 1", "imagen": "assets/personajes/hon-go/detalle-1.png" },
+        { "nombre": "Detalle 2", "imagen": "assets/personajes/hon-go/detalle-2.png" },
+        { "nombre": "Detalle 3", "imagen": "assets/personajes/hon-go/detalle-3.png" },
+        { "nombre": "Detalle 4", "imagen": "assets/personajes/hon-go/detalle-4.png" },
+        { "nombre": "Detalle 5", "imagen": "assets/personajes/hon-go/detalle-5.png" },
+        { "nombre": "Detalle 6", "imagen": "assets/personajes/hon-go/detalle-6.png" }
       ],
-      "accesorios": [
-        { "nombre": "Trozos de madera", "imagen": "assets/personajes/hon-go/acc-madera.png" },
-        { "nombre": "Pócima natural",   "imagen": "assets/personajes/hon-go/acc-pocima.png" },
-        { "nombre": "Hoja mágica",      "imagen": "assets/personajes/hon-go/acc-hoja.png" },
-        { "nombre": "Mochila de explorador", "imagen": "assets/personajes/hon-go/acc-mochila.png" }
-      ],
+      "concepto_original": "assets/personajes/hon-go/concepto.png",
       "wireframes": [
         "assets/personajes/hon-go/wireframe-1.png",
         "assets/personajes/hon-go/wireframe-2.png",
         "assets/personajes/hon-go/wireframe-3.png"
       ],
-      "concepto_original": "assets/personajes/hon-go/concepto.png",
-      "herramientas": ["Maya", "Photoshop", "Herramientas de Animación y Modelado", "Marmoset Toolbag 4"],
-      "especificaciones": {
-        "poligonos": "58,972",
-        "vertices":  "30,421",
-        "texturas":  "4K",
-        "rigging":   "Sí",
-        "animacion": "Sí"
-      }
+      "modelo_glb": "assets/personajes/hon-go/hon-go.glb"
     }
   ]
 }
