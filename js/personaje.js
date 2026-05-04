@@ -17,8 +17,8 @@ const TOOL_ICONS = {
   'substance':   '../assets/icons/substance.png',
   'illustrator': '../assets/icons/illustrator.png',
   '3ds max':     '../assets/icons/3dsmax.png',
-  'marmoset':    '../assets/icons/marmoset.png',
-  'marmoset toolbag 4': '../assets/icons/marmoset.png',
+  'arnold':      '../assets/icons/arnold.png',
+  'blender':      '../assets/icons/blender.png',
 };
 
 function getToolIcon(nombre) {
@@ -33,7 +33,7 @@ function getToolIcon(nombre) {
 const SPEC_ICONS = {
   poligonos: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>`,
   vertices:  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 22 20 2 20"/></svg>`,
-  texturas:  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>`,
+  texturas:  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="9" height="9"/><rect x="13" y="2" width="9" height="9"/><rect x="2" y="13" width="9" height="9"/><rect x="13" y="13" width="9" height="9"/></svg>`,
 };
 
 const SPEC_LABELS = {
@@ -120,7 +120,7 @@ function initGradientMesh(rawColors) {
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, W, H);
 
-    // Cada punto: gradiente radial con opacidad muy baja, sin multiply
+    // Cada punto: gradiente radial con opacidad baja
     points.forEach((p, i) => {
       const cx = p.x * W;
       const cy = p.y * H;
@@ -128,7 +128,7 @@ function initGradientMesh(rawColors) {
 
       const { r, g, b } = colors[i];
       const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
-      // opacidad máxima 0.55 en el centro, cae a 0 en el borde
+      // opacidad máxima en el centro, cae a 0 en el borde
       grad.addColorStop(0,    `rgba(${r},${g},${b}, 0.50)`);
       grad.addColorStop(0.35, `rgba(${r},${g},${b}, 0.35)`);
       grad.addColorStop(1,    `rgba(${r},${g},${b}, 0.00)`);
@@ -141,8 +141,8 @@ function initGradientMesh(rawColors) {
 
     // Mueve los puntos (velocidad varía suavemente con seno)
     points.forEach((p, i) => {
-      p.x += p.vx * (1 + 0.4 * Math.sin(ts * 0.0003 + i * 1.7));
-      p.y += p.vy * (1 + 0.4 * Math.cos(ts * 0.0004 + i * 2.1));
+      p.x += p.vx * 1.5 * (1 + 0.4 * Math.sin(ts * 0.0003 + i * 1.7));
+      p.y += p.vy * 1.5 * (1 + 0.4 * Math.cos(ts * 0.0004 + i * 2.1));
 
       // Rebote suave en los límites
       if (p.x < bounds.min || p.x > bounds.max) p.vx *= -1;
@@ -378,6 +378,7 @@ async function cargarPersonaje() {
     // ── Iniciar carruseles ──
     initWireframeCarrusel();
     initDetallesCarrusel();
+    initLightbox();
 
   } catch (err) {
     console.error(err);
@@ -386,4 +387,52 @@ async function cargarPersonaje() {
   }
 }
 
-cargarPersonaje();
+    // ════════════════════════════════
+    // LIGHTBOX
+    // ════════════════════════════════
+    function initLightbox() {
+      const selectores = [
+        '.p-vista-item img',
+        '.p-detalle-item img',
+        '.p-concepto img',
+        '.p-wireframe-track img',
+      ];
+      document.querySelectorAll(selectores.join(', ')).forEach(img => {
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click', () => abrirLightbox(img.src, img.alt));
+      });
+    }
+
+    function abrirLightbox(src, alt = '') {
+      document.querySelector('.lightbox-overlay')?.remove();
+      const overlay = document.createElement('div');
+      overlay.className = 'lightbox-overlay';
+      const imgEl = document.createElement('img');
+      imgEl.src = src;
+      imgEl.alt = alt;
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'lightbox-close';
+      closeBtn.innerHTML = '✕';
+      closeBtn.setAttribute('aria-label', 'Cerrar');
+      overlay.appendChild(imgEl);
+      overlay.appendChild(closeBtn);
+      document.body.appendChild(overlay);
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) cerrarLightbox(overlay);
+      });
+      closeBtn.addEventListener('click', () => cerrarLightbox(overlay));
+      document.addEventListener('keydown', function onKey(e) {
+        if (e.key === 'Escape') {
+          cerrarLightbox(overlay);
+          document.removeEventListener('keydown', onKey);
+        }
+      });
+    }
+
+    function cerrarLightbox(overlay) {
+      overlay.style.opacity = '0';
+      overlay.style.transition = 'opacity 0.2s ease';
+      setTimeout(() => overlay.remove(), 200);
+    }
+
+    cargarPersonaje();
