@@ -42,6 +42,121 @@ const SPEC_LABELS = {
   texturas:  'Texturas',
 };
 
+/* ════════════════════════════════════════════
+   GRADIENT MESH — canvas animado
+   Toma los primeros 4 colores del personaje,
+   los desatura y aclara, y los anima como
+   4 puntos de color flotantes sobre fondo blanco.
+════════════════════════════════════════════ */
+
+// Convierte hex "#RRGGBB" → { r, g, b }
+function hexToRgb(hex) {
+  const m = hex.replace('#','').match(/.{2}/g);
+  return { r: parseInt(m[0],16), g: parseInt(m[1],16), b: parseInt(m[2],16) };
+}
+
+// Mezcla un color con blanco para aclararlo (t: 0=original, 1=blanco puro)
+function tintWithWhite({ r, g, b }, t) {
+  return {
+    r: Math.round(r + (255 - r) * t),
+    g: Math.round(g + (255 - g) * t),
+    b: Math.round(b + (255 - b) * t),
+  };
+}
+
+// Desatura un color RGB (mezcla con su luminosidad en escala de grises)
+function desaturate({ r, g, b }, amount) {
+  const gray = r * 0.299 + g * 0.587 + b * 0.114;
+  return {
+    r: Math.round(r + (gray - r) * amount),
+    g: Math.round(g + (gray - g) * amount),
+    b: Math.round(b + (gray - b) * amount),
+  };
+}
+
+// Procesa un hex crudo → pastel suave visible pero no agresivo
+// desatura 35% + aclara 60%
+function processColor(hex) {
+  let c = hexToRgb(hex);
+  c = desaturate(c, 0.35);
+  c = tintWithWhite(c, 0.60);
+  return c;
+}
+
+let meshRAF = null;
+
+function initGradientMesh(rawColors) {
+  const canvas = document.getElementById('gradient-mesh');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  // Procesa los primeros 4 colores
+  const colors = rawColors.slice(0, 4).map(processColor);
+
+  // Tamaño del canvas = viewport
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Puntos con radios más contenidos (0.45–0.55 del lado menor)
+  const points = [
+    { x: 0.15, y: 0.15, vx:  0.00018, vy:  0.00012, r: 0.52 },
+    { x: 0.82, y: 0.25, vx: -0.00014, vy:  0.00020, r: 0.48 },
+    { x: 0.25, y: 0.78, vx:  0.00016, vy: -0.00015, r: 0.45 },
+    { x: 0.75, y: 0.72, vx: -0.00020, vy: -0.00010, r: 0.50 },
+  ];
+
+  const bounds = { min: -0.15, max: 1.15 };
+
+  function draw(ts) {
+    const W = canvas.width;
+    const H = canvas.height;
+
+    // Fondo base blanco puro
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, W, H);
+
+    // Cada punto: gradiente radial con opacidad muy baja, sin multiply
+    points.forEach((p, i) => {
+      const cx = p.x * W;
+      const cy = p.y * H;
+      const radius = Math.min(W, H) * p.r;
+
+      const { r, g, b } = colors[i];
+      const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+      // opacidad máxima 0.55 en el centro, cae a 0 en el borde
+      grad.addColorStop(0,    `rgba(${r},${g},${b}, 0.82)`);
+      grad.addColorStop(0.35, `rgba(${r},${g},${b}, 0.38)`);
+      grad.addColorStop(1,    `rgba(${r},${g},${b}, 0.00)`);
+
+      // source-over: se superponen suavemente sin oscurecer
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+    });
+
+    // Mueve los puntos (velocidad varía suavemente con seno)
+    points.forEach((p, i) => {
+      p.x += p.vx * (1 + 0.4 * Math.sin(ts * 0.0003 + i * 1.7));
+      p.y += p.vy * (1 + 0.4 * Math.cos(ts * 0.0004 + i * 2.1));
+
+      // Rebote suave en los límites
+      if (p.x < bounds.min || p.x > bounds.max) p.vx *= -1;
+      if (p.y < bounds.min || p.y > bounds.max) p.vy *= -1;
+    });
+
+    meshRAF = requestAnimationFrame(draw);
+  }
+
+  // Cancela animación previa si existía (cambio de personaje)
+  if (meshRAF) cancelAnimationFrame(meshRAF);
+  meshRAF = requestAnimationFrame(draw);
+}
+
 // ════════════════════════════════
 // WIREFRAME MINI-CARRUSEL
 // ════════════════════════════════
@@ -77,7 +192,7 @@ function moveWireframe(index) {
 }
 
 // ════════════════════════════════
-// DETALLES CARRUSEL (reemplaza poses)
+// DETALLES CARRUSEL
 // ════════════════════════════════
 let detallesIndex = 0;
 const DETALLES_VISIBLE = 4;
@@ -139,6 +254,11 @@ async function cargarPersonaje() {
 
     document.title = `${p.nombre} | Portafolio 3D`;
 
+    // ── GRADIENT MESH con colores del personaje ──
+    if (p.colores?.length >= 4) {
+      initGradientMesh(p.colores);
+    }
+
     // ── HERO ──
     document.getElementById('p-nombre').textContent      = p.nombre;
     document.getElementById('p-subtitulo').textContent   = p.subtitulo;
@@ -148,11 +268,8 @@ async function cargarPersonaje() {
     heroImg.src = p.imagen_hero;
     heroImg.alt = p.nombre;
 
-    // Fondo hero: blur suave de la misma imagen
     const heroBg = document.getElementById('p-hero-bg');
     heroBg.innerHTML = `<img src="${p.imagen_hero}" alt=""/>`;
-
-    // Si hay imagen_bg separada en el JSON, úsala para el fondo
     if (p.imagen_bg) {
       heroBg.innerHTML = `<img src="${p.imagen_bg}" alt=""/>`;
     }
@@ -175,7 +292,7 @@ async function cargarPersonaje() {
       </div>
     `).join('');
 
-    // ── HERRAMIENTAS (máx 3) ──
+    // ── HERRAMIENTAS ──
     const herramientasList = document.getElementById('p-herramientas-list');
     const herramientas3 = p.herramientas.slice(0, 3);
     herramientasList.innerHTML = herramientas3.map(h => {
@@ -195,7 +312,7 @@ async function cargarPersonaje() {
       <div class="p-color-swatch" style="background:${c}" title="${c}"></div>
     `).join('');
 
-    // ── SPECS (solo polígonos, vértices, texturas) ──
+    // ── SPECS ──
     const specsGrid = document.getElementById('p-specs-grid');
     const specsKeys = ['poligonos', 'vertices', 'texturas'];
     specsGrid.innerHTML = specsKeys
@@ -208,7 +325,7 @@ async function cargarPersonaje() {
         </div>
       `).join('');
 
-    // ── DETALLES (carrusel, usa p.poses o p.detalles) ──
+    // ── DETALLES ──
     const detallesTrack = document.getElementById('p-detalles-track');
     const detallesSource = p.detalles || p.poses || [];
     detallesTrack.innerHTML = detallesSource.map(item => `

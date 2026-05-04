@@ -6,7 +6,7 @@
       "subtitulo": "El Honguito del Bosque",
       "descripcion": "Tierno, sabio y protector del bosque. Hon-Go conoce los secretos de la naturaleza y ayuda a los viajeros perdidos a encontrar su camino. Siempre lleva consigo trozos de madera y magia natural.",
       "tags": ["Bondadoso", "Sabio", "Protector", "Natural"],
-      "colores": ["#8B4513", "#4A7C3F", "#F5DEB3", "#CC2222", "#A0856C", "#D4C4A8"],
+      "colores": ["#8B4513", "#4A7C3F", "#F5DEB3", "#CC2222", "#D4C4A8"],
       "imagen_thumbnail": "../assets/personajes/hon-go/thumbnail.png",
       "imagen_hero": "../assets/personajes/hon-go/thumbnail.png",
       "vistas": {
