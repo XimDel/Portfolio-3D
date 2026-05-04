@@ -109,7 +109,7 @@ async function cargarPersonajes() {
 
       link.innerHTML = `
         <div class="personaje-card-img">
-          <img src="${personaje.imagen_thumbnail}" alt="${personaje.nombre}" loading="lazy"/>
+          <img src="${personaje.imagen_thumbnail.replace('../', '')}" alt="${personaje.nombre}" loading="lazy"/>
         </div>
         <span>${personaje.nombre.toUpperCase()}</span>
       `;
