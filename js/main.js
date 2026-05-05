@@ -167,6 +167,25 @@ document.getElementById('next-personaje')?.addEventListener('click', () => {
 });
 
 // ════════════════════════════════
+// COMING SOON ESCENARIOS
+// ════════════════════════════════
+const escenariosLink = document.getElementById('escenarios-link');
+const comingToast = document.getElementById('comingToast');
+
+if (escenariosLink && comingToast) {
+  escenariosLink.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    comingToast.classList.add('show');
+
+    setTimeout(() => {
+      comingToast.classList.remove('show');
+    }, 3000);
+  });
+}
+
+
+// ════════════════════════════════
 // INIT
 // ════════════════════════════════
 initReveal();

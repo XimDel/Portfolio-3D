@@ -836,3 +836,39 @@ body {
     flex: 0 0 calc(100% / 2 - 0.5rem);
   }
 }
+
+
+/*temp*/
+
+.coming-toast {
+  position: fixed;
+  top: 90px;
+  right: 30px;
+
+  background: rgba(20, 20, 20, 0.92);
+  color: white;
+
+  padding: 16px 22px;
+  border-radius: 16px;
+
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+
+  border: 1px solid rgba(255,255,255,0.12);
+
+  backdrop-filter: blur(10px);
+
+  opacity: 0;
+  transform: translateY(-10px);
+
+  pointer-events: none;
+
+  transition: all 0.35s ease;
+
+  z-index: 9999;
+}
+
+.coming-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
