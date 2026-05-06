@@ -67,7 +67,7 @@
       "subtitulo": "El Honguito del Bosque",
       "descripcion": "Tierno, sabio y protector del bosque. Hon-Go conoce los secretos de la naturaleza y ayuda a los viajeros perdidos a encontrar su camino. Siempre lleva consigo trozos de madera y magia natural.",
       "tags": ["Bondadoso", "Sabio", "Protector", "Natural"],
-      "colores": ["#8B4513", "#4A7C3F", "#F5DEB3", "#CC2222", "#D4C4A8"],
+      "colores": ["#CC2222", "#4A7C3F", "#F5DEB3", "#8B4513", "#D4C4A8"],
       "imagen_thumbnail": "../assets/personajes/hon-go/thumbnail.png",
       "imagen_hero": "../assets/personajes/hon-go/thumbnail.png",
       "vistas": {
@@ -76,19 +76,21 @@
         "lado_derecho": "../assets/personajes/hon-go/lado-derecho.png",
         "lado_izquierdo": "../assets/personajes/hon-go/lado-izquierdo.png"
       },
-      "herramientas": ["Maya", "Photoshop", "Marmoset Toolbag 4"],
+      "herramientas": [
+        "Maya",
+        "Substance Painter",
+        "Arnold Render"
+      ],
       "especificaciones": {
         "poligonos": "58,972",
         "vertices": "30,421",
         "texturas": "4K"
       },
       "detalles": [
-        { "nombre": "Detalle 1", "imagen": "assets/personajes/hon-go/detalle-1.png" },
-        { "nombre": "Detalle 2", "imagen": "assets/personajes/hon-go/detalle-2.png" },
-        { "nombre": "Detalle 3", "imagen": "assets/personajes/hon-go/detalle-3.png" },
-        { "nombre": "Detalle 4", "imagen": "assets/personajes/hon-go/detalle-4.png" },
-        { "nombre": "Detalle 5", "imagen": "assets/personajes/hon-go/detalle-5.png" },
-        { "nombre": "Detalle 6", "imagen": "assets/personajes/hon-go/detalle-6.png" }
+        { "nombre": "Detalle 1", "imagen": "../assets/personajes/hon-go/detalle-1.png" },
+        { "nombre": "Detalle 2", "imagen": "../assets/personajes/hon-go/detalle-2.png" },
+        { "nombre": "Detalle 3", "imagen": "../assets/personajes/hon-go/detalle-3.png" },
+        { "nombre": "Detalle 4", "imagen": "../assets/personajes/hon-go/detalle-4.png" }
       ],
       "concepto_original": "../assets/personajes/hon-go/concepto.png",
       "wireframes": [

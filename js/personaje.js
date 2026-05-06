@@ -91,7 +91,12 @@ function initGradientMesh(rawColors) {
   const ctx = canvas.getContext('2d');
 
   // Procesa los primeros 4 colores
-  const colors = rawColors.slice(0, 4).map(processColor);
+  const colors = [
+  processColor(rawColors[0]),
+  processColor(rawColors[1]),
+  processColor(rawColors[2]),
+  processColor(rawColors[0]),
+];
 
   // Tamaño del canvas = viewport
   function resize() {
@@ -129,7 +134,7 @@ function initGradientMesh(rawColors) {
       const { r, g, b } = colors[i];
       const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
       // opacidad máxima en el centro, cae a 0 en el borde
-      grad.addColorStop(0,    `rgba(${r},${g},${b}, 0.50)`);
+      grad.addColorStop(0,    `rgba(${r},${g},${b}, 0.70)`);
       grad.addColorStop(0.35, `rgba(${r},${g},${b}, 0.35)`);
       grad.addColorStop(1,    `rgba(${r},${g},${b}, 0.00)`);
 
