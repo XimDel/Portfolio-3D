@@ -64,10 +64,10 @@
     {
       "id": "hon-go",
       "nombre": "Hon-Go",
-      "subtitulo": "El Honguito del Bosque",
-      "descripcion": "Tierno, sabio y protector del bosque. Hon-Go conoce los secretos de la naturaleza y ayuda a los viajeros perdidos a encontrar su camino. Siempre lleva consigo trozos de madera y magia natural.",
-      "tags": ["Bondadoso", "Sabio", "Protector", "Natural"],
-      "colores": ["#CC2222", "#4A7C3F", "#F5DEB3", "#8B4513", "#D4C4A8"],
+      "subtitulo": "El Guardian del Bosque",
+      "descripcion": "Hon-Go es un personaje 3D de estilo fantástico inspirado en un hongo guerrero. Su diseño mezcla ternura, aventura y elementos naturales, destacando por su sombrero rojo texturizado, accesorios de cuero y una espada de madera que refuerzan su identidad como protector del bosque. El diseño combina materiales orgánicos como madera, cuero y musgo, creando un personaje con estilo caricaturesco, cálido y encantador. Hon-Go parece listo para proteger su pequeño reino natural, explorar senderos escondidos y acompañar historias llenas de magia y aventura.",
+      "tags": ["Guerrero", "Champiñón", "Espada", "Bosque"],
+      "colores": ["#CC2222", "#4A7C3F", "#F5DEB3", "#8B4513", "#FFFFFF"],
       "imagen_thumbnail": "../assets/personajes/hon-go/thumbnail.png",
       "imagen_hero": "../assets/personajes/hon-go/thumbnail.png",
       "vistas": {
@@ -76,15 +76,11 @@
         "lado_derecho": "../assets/personajes/hon-go/lado-derecho.png",
         "lado_izquierdo": "../assets/personajes/hon-go/lado-izquierdo.png"
       },
-      "herramientas": [
-        "Maya",
-        "Substance Painter",
-        "Arnold Render"
-      ],
+      "herramientas": ["Maya", "Substance Painter", "Arnold Render"],
       "especificaciones": {
-        "poligonos": "58,972",
-        "vertices": "30,421",
-        "texturas": "4K"
+        "poligonos": "7,056",
+        "vertices": "7,095",
+        "texturas": "2K"
       },
       "detalles": [
         { "nombre": "Detalle 1", "imagen": "../assets/personajes/hon-go/detalle-1.png" },
