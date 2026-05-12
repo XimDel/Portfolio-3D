@@ -4,26 +4,22 @@
 
 // ════════════════════════════════
 // SCROLL REVEAL con IntersectionObserver
-// Observa todos los .reveal-up y .reveal-left
-// y les añade .visible cuando entran en pantalla
 // ════════════════════════════════
 const revealObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        // Una vez visible, dejamos de observar
         revealObserver.unobserve(entry.target);
       }
     });
   },
   {
-    threshold: 0.12,      // se activa cuando el 12% del elemento es visible
-    rootMargin: '0px 0px -40px 0px'  // un poco antes de llegar al borde
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
   }
 );
 
-// Observar todos los elementos con clase reveal al cargar
 function initReveal() {
   document.querySelectorAll('.reveal-up, .reveal-left').forEach(el => {
     revealObserver.observe(el);
@@ -75,7 +71,6 @@ async function cargarEscenarios() {
       grid.appendChild(link);
     });
 
-    // Observar los items recién creados
     grid.querySelectorAll('.reveal-up').forEach(el => revealObserver.observe(el));
 
   } catch (err) {
@@ -84,10 +79,12 @@ async function cargarEscenarios() {
 }
 
 // ════════════════════════════════
-// CARGA DINÁMICA DE PERSONAJES (carrusel)
+// CARGA DINÁMICA DE PERSONAJES (carrusel autoplay)
 // ════════════════════════════════
 let carouselIndex = 0;
 let carouselItems = [];
+let carouselDirection = 1; // 1 = derecha, -1 = izquierda
+let autoplayTimer = null;
 const VISIBLE_CARDS = 3;
 
 async function cargarPersonajes() {
@@ -124,11 +121,15 @@ async function cargarPersonajes() {
     for (let i = 0; i < totalDots; i++) {
       const dot = document.createElement('span');
       if (i === 0) dot.classList.add('active');
-      dot.addEventListener('click', () => moverCarrusel(i));
+      dot.addEventListener('click', () => {
+        moverCarrusel(i);
+        resetAutoplay(); // Al hacer clic en un dot, reinicia el timer
+      });
       dotsContainer.appendChild(dot);
     }
 
     actualizarCarrusel();
+    iniciarAutoplay();
 
   } catch (err) {
     console.warn('No se pudo cargar personajes.json:', err);
@@ -158,13 +159,33 @@ function moverCarrusel(index) {
   actualizarCarrusel();
 }
 
-document.getElementById('prev-personaje')?.addEventListener('click', () => {
-  moverCarrusel(carouselIndex - 1);
-});
+function avanzarCarrusel() {
+  const totalDots = Math.ceil(carouselItems.length / VISIBLE_CARDS);
+  if (totalDots <= 1) return;
 
-document.getElementById('next-personaje')?.addEventListener('click', () => {
-  moverCarrusel(carouselIndex + 1);
-});
+  const nextIndex = carouselIndex + carouselDirection;
+
+  if (nextIndex >= totalDots) {
+    // Llegó al final → reversa
+    carouselDirection = -1;
+    moverCarrusel(carouselIndex - 1);
+  } else if (nextIndex < 0) {
+    // Llegó al inicio → adelante
+    carouselDirection = 1;
+    moverCarrusel(carouselIndex + 1);
+  } else {
+    moverCarrusel(nextIndex);
+  }
+}
+
+function iniciarAutoplay() {
+  autoplayTimer = setInterval(avanzarCarrusel, 5000);
+}
+
+function resetAutoplay() {
+  clearInterval(autoplayTimer);
+  iniciarAutoplay();
+}
 
 // ════════════════════════════════
 // COMING SOON ESCENARIOS
@@ -183,7 +204,6 @@ if (escenariosLink && comingToast) {
     }, 3000);
   });
 }
-
 
 // ════════════════════════════════
 // INIT

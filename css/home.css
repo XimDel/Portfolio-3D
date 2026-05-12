@@ -620,10 +620,10 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  overflow: hidden;  
-  padding: 20px 0 20px 0; 
+  overflow: hidden;
+  padding: 20px 0;
 }
-
+ 
 .showcase-carousel {
   display: flex;
   gap: 1rem;
@@ -694,7 +694,7 @@ body {
   border-radius: 50%;
   font-size: 1.4rem;
   cursor: pointer;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   color: var(--color-purple);
