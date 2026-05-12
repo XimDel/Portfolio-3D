@@ -159,6 +159,7 @@ body {
   gap: 1rem;
   padding: 2rem;
   animation: heroFadeIn 1s ease both;
+  margin-top: 180px;
 }
 
 @keyframes heroFadeIn {
