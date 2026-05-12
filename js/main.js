@@ -88,7 +88,7 @@ async function cargarEscenarios() {
 // ════════════════════════════════
 let carouselIndex = 0;
 let carouselItems = [];
-const VISIBLE_CARDS = 4;
+const VISIBLE_CARDS = 3;
 
 async function cargarPersonajes() {
   const carousel      = document.getElementById('personajes-carousel');

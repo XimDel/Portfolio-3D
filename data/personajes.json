@@ -131,6 +131,41 @@
         "../assets/personajes/robi/wireframe-3.png"
       ],
       "modelo_glb": "../assets/personajes/robi/modelo.glb"
+    },
+    {
+      "id": "redeye",
+      "nombre": "RedEye",
+      "subtitulo": "El Vigía Oscuro",
+      "descripcion": "Este dron tiene un diseño futurista, elegante y algo intimidante, con una estructura similar a un arácnido mecánico. Su cuerpo central es compacto y blindado, con una carcasa oscura de acabado metálico brillante que le da una apariencia tecnológica y avanzada. El detalle más llamativo es su visor rojo frontal, que funciona como si fuera un ojo de escaneo, aportándole una personalidad vigilante y misteriosa. Sus extremidades curvas y articuladas parecen estar diseñadas para desplazarse con precisión sobre distintas superficies, combinando movilidad terrestre con una estética de dron explorador. Las ruedas en sus patas le dan un aspecto funcional, como si pudiera patrullar, analizar terrenos o moverse silenciosamente en ambientes industriales, urbanos o de ciencia ficción.",
+      "tags": ["Robot", "Metálico", "Futurista", "Dron"],
+      "colores": ["#2B2B2B", "#6B6B6B", "#CC2222", "#FFFFFF", "#9A9A9A"],
+      "imagen_thumbnail": "../assets/personajes/redeye/thumbnail.png",
+      "imagen_hero": "../assets/personajes/redeye/thumbnail.png",
+      "vistas": {
+        "frente": "../assets/personajes/redeye/frente.png",
+        "atras": "../assets/personajes/redeye/atras.png",
+        "lado_derecho": "../assets/personajes/redeye/lado-derecho.png",
+        "lado_izquierdo": "../assets/personajes/redeye/lado-izquierdo.png"
+      },
+      "herramientas": ["Maya", "Arnold Render"],
+      "especificaciones": {
+        "poligonos": "26,124",
+        "vertices": "27,595",
+        "texturas": "2K"
+      },
+      "detalles": [
+        { "nombre": "Detalle 1", "imagen": "../assets/personajes/redeye/detalle-1.png" },
+        { "nombre": "Detalle 2", "imagen": "../assets/personajes/redeye/detalle-2.png" },
+        { "nombre": "Detalle 3", "imagen": "../assets/personajes/redeye/detalle-3.png" },
+        { "nombre": "Detalle 4", "imagen": "../assets/personajes/redeye/detalle-4.png" }
+      ],
+      "concepto_original": "../assets/personajes/redeye/concepto.png",
+      "wireframes": [
+        "../assets/personajes/redeye/wireframe-1.png",
+        "../assets/personajes/redeye/wireframe-2.png",
+        "../assets/personajes/redeye/wireframe-3.png"
+      ],
+      "modelo_glb": "../assets/personajes/redeye/modelo.glb"
     }
   ]
 }
