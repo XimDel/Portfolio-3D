@@ -79,126 +79,267 @@ async function cargarEscenarios() {
 }
 
 // ════════════════════════════════
-// CARGA DINÁMICA DE PERSONAJES (carrusel autoplay)
+// CARRUSEL DE PERSONAJES — rediseñado
 // ════════════════════════════════
-let carouselIndex = 0;
-let carouselItems = [];
-let carouselDirection = 1; // 1 = derecha, -1 = izquierda
-let autoplayTimer = null;
-const VISIBLE_CARDS = 3;
+(function initPersonajesCarousel() {
 
-async function cargarPersonajes() {
-  const carousel      = document.getElementById('personajes-carousel');
-  const dotsContainer = document.getElementById('carousel-dots');
-  if (!carousel) return;
+  // ── Utilidades ─────────────────────────────────────────
+  function mod(n, m) { return ((n % m) + m) % m; }
 
-  try {
-    const res  = await fetch('data/personajes.json');
-    const data = await res.json();
+  // ── Estado ─────────────────────────────────────────────
+  let allPersonajes = [];
+  let filtered      = [];
+  let activeIdx     = 0;
+  let isAnimating   = false;
+  let autoplayTimer = null;
+  const AUTOPLAY_MS = 7000; // gira solo cada 7 s
 
-    carouselItems = data.personajes;
-    carousel.innerHTML = '';
+  // ── Slots visuales: posición relativa respecto al centro ─
+  // Se muestran 5 tarjetas: -2, -1, 0 (centro), +1, +2
+  const SLOTS = [
+    { offset: -2, x: -290, scale: 0.68, opacity: 1.0, z: 1 },
+    { offset: -1, x: -160, scale: 0.86, opacity: 1.0, z: 2 },
+    { offset:  0, x:    0, scale: 1.08, opacity: 1.0, z: 4 },
+    { offset:  1, x:  160, scale: 0.86, opacity: 1.0, z: 2 },
+    { offset:  2, x:  290, scale: 0.68, opacity: 1.0, z: 1 },
+  ];
 
-    carouselItems.forEach(personaje => {
-      const link = document.createElement('a');
-      link.href      = `personajes/index.html?id=${personaje.id}`;
-      link.className = 'personaje-card';
+  // ── Referencias DOM ─────────────────────────────────────
+  const viewport    = document.getElementById('pj-viewport');
+  const dotsEl      = document.getElementById('pj-dots');
+  const counterEl   = document.getElementById('pj-counter-text');
+  const centerName  = document.getElementById('pj-center-name');
+  const centerSub   = document.getElementById('pj-center-sub');
+  const centerInfo  = document.getElementById('pj-center-info');
+  const selectBtn   = document.getElementById('pj-select-btn');
+  const selectText  = document.getElementById('pj-select-text');
+  const searchInput = document.getElementById('pj-search');
+  const arrowLeft   = document.getElementById('pj-arrow-left');
+  const arrowRight  = document.getElementById('pj-arrow-right');
 
-      link.innerHTML = `
-        <div class="personaje-card-img">
-          <img src="${personaje.imagen_thumbnail.replace('../', '')}" alt="${personaje.nombre}" loading="lazy"/>
-        </div>
-        <span>${personaje.nombre.toUpperCase()}</span>
-      `;
+  if (!viewport) return; // sección no presente en esta página
 
-      carousel.appendChild(link);
-    });
-
-    // Dots de paginación
-    const totalDots = Math.ceil(carouselItems.length / VISIBLE_CARDS);
-    dotsContainer.innerHTML = '';
-
-    for (let i = 0; i < totalDots; i++) {
-      const dot = document.createElement('span');
-      if (i === 0) dot.classList.add('active');
-      dot.addEventListener('click', () => {
-        moverCarrusel(i);
-        resetAutoplay(); // Al hacer clic en un dot, reinicia el timer
-      });
-      dotsContainer.appendChild(dot);
+  // ── Construir tarjetas ──────────────────────────────────
+  function buildCards() {
+    viewport.innerHTML = '';
+    if (filtered.length === 0) {
+      viewport.innerHTML = '<p class="pj-no-results">No se encontraron personajes</p>';
+      centerInfo.classList.remove('show');
+      if (selectBtn) selectBtn.style.display = 'none';
+      updateDots();
+      updateCounter();
+      return;
     }
 
-    actualizarCarrusel();
-    iniciarAutoplay();
+    if (selectBtn) selectBtn.style.display = '';
 
-  } catch (err) {
-    console.warn('No se pudo cargar personajes.json:', err);
+    SLOTS.forEach(slot => {
+      const dataIdx = mod(activeIdx + slot.offset, filtered.length);
+      const p = filtered[dataIdx];
+      const color = (p.colores && p.colores[0]) ? p.colores[0] : '#aaaaaa';
+
+      // Tamaños proporcionales al slot
+      const imgW = Math.round(65 + slot.scale * 130);
+      const imgH = Math.round(85 + slot.scale * 195);
+
+      const card = document.createElement('div');
+      card.className = 'pj-card';
+      card.style.transform = `translateX(${slot.x}px) scale(${slot.scale})`;
+      card.style.opacity   = slot.opacity;
+      card.style.zIndex    = slot.z;
+
+      // Resplandor — solo para el centro, detrás de la imagen
+      const glow = document.createElement('div');
+      glow.className = 'pj-glow';
+      glow.style.width      = Math.round(imgW * 0.75) + 'px';
+      glow.style.height     = Math.round(imgH * 0.65) + 'px';
+      glow.style.background = color;
+      glow.style.opacity    = slot.offset === 0 ? '0.35' : '0';
+      glow.style.zIndex     = '0';
+      glow.style.bottom     = '10%';
+      glow.style.top        = 'auto';
+
+      // Imagen — z-index por encima del glow
+      const img = document.createElement('img');
+      img.src    = p.imagen_thumbnail;
+      img.alt    = p.nombre;
+      img.width  = imgW;
+      img.height = imgH;
+      img.loading = 'lazy';
+      img.style.position = 'relative';
+      img.style.zIndex   = '1';
+
+      // Plataforma
+      const platform = document.createElement('div');
+      platform.className = 'pj-platform';
+
+      const imgWrap = document.createElement('div');
+      imgWrap.className = 'pj-card-img-wrap';
+      imgWrap.appendChild(glow);
+      imgWrap.appendChild(img);
+      imgWrap.appendChild(platform);
+
+      // Etiqueta y punto de color (ocultos en el centro, info va en overlay)
+      const label = document.createElement('div');
+      label.className   = 'pj-card-label';
+      label.textContent = p.nombre.toUpperCase();
+      label.style.opacity = slot.offset === 0 ? '0' : '1';
+
+      const dot = document.createElement('div');
+      dot.className = 'pj-card-dot';
+      dot.style.background = color;
+      dot.style.opacity = slot.offset === 0 ? '0' : '1';
+
+      card.appendChild(imgWrap);
+      card.appendChild(label);
+      card.appendChild(dot);
+
+      // Click en tarjetas laterales → navegar hacia ese lado
+      if (slot.offset !== 0) {
+        card.addEventListener('click', () => {
+          navigate(slot.offset > 0 ? 1 : -1);
+        });
+      }
+
+      viewport.appendChild(card);
+    });
+
+    updateCenterInfo();
+    updateDots();
+    updateCounter();
   }
-}
 
-function actualizarCarrusel() {
-  const carousel = document.getElementById('personajes-carousel');
-  if (!carousel) return;
+  // ── Info del centro ─────────────────────────────────────
+  function updateCenterInfo() {
+    if (filtered.length === 0) return;
+    const p = filtered[activeIdx];
+    centerName.textContent = p.nombre;
+    centerSub.textContent  = p.subtitulo || '';
+    if (selectText) selectText.textContent = 'CONOCE A ' + p.nombre.toUpperCase();
+    centerInfo.classList.add('show');
+  }
 
-  const card = carousel.querySelector('.personaje-card');
-  if (!card) return;
+  // ── Dots de paginación ──────────────────────────────────
+  function updateDots() {
+    dotsEl.innerHTML = '';
+    filtered.forEach((_, i) => {
+      const d = document.createElement('span');
+      if (i === activeIdx) d.classList.add('active');
+      d.addEventListener('click', () => {
+        if (isAnimating) return;
+        activeIdx = i;
+        buildCards();
+        resetAutoplay();
+      });
+      dotsEl.appendChild(d);
+    });
+  }
 
-  const cardWidth = card.offsetWidth;
-  const gap = 16;
-  carousel.style.transform  = `translateX(-${carouselIndex * (cardWidth + gap) * VISIBLE_CARDS}px)`;
-  carousel.style.transition = 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)';
+  // ── Contador ────────────────────────────────────────────
+  function updateCounter() {
+    if (counterEl) {
+      counterEl.textContent = filtered.length + ' / ' + allPersonajes.length;
+    }
+  }
 
-  document.querySelectorAll('#carousel-dots span').forEach((dot, i) => {
-    dot.classList.toggle('active', i === carouselIndex);
+  // ── Navegación ──────────────────────────────────────────
+  function navigate(dir) {
+    if (isAnimating || filtered.length <= 1) return;
+    isAnimating = true;
+    activeIdx = mod(activeIdx + dir, filtered.length);
+    buildCards();
+    setTimeout(() => { isAnimating = false; }, 450);
+  }
+
+  // ── Autoplay ────────────────────────────────────────────
+  function startAutoplay() {
+    stopAutoplay();
+    autoplayTimer = setInterval(() => {
+      navigate(1); // avanza un paso a la derecha
+    }, AUTOPLAY_MS);
+  }
+
+  function stopAutoplay() {
+    if (autoplayTimer) {
+      clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    }
+  }
+
+  function resetAutoplay() {
+    stopAutoplay();
+    startAutoplay();
+  }
+
+  // ── Eventos de flechas ──────────────────────────────────
+  arrowLeft.addEventListener('click', () => {
+    navigate(-1);
+    resetAutoplay();
   });
-}
 
-function moverCarrusel(index) {
-  const totalDots = Math.ceil(carouselItems.length / VISIBLE_CARDS);
-  carouselIndex = Math.max(0, Math.min(index, totalDots - 1));
-  actualizarCarrusel();
-}
+  arrowRight.addEventListener('click', () => {
+    navigate(1);
+    resetAutoplay();
+  });
 
-function avanzarCarrusel() {
-  const totalDots = Math.ceil(carouselItems.length / VISIBLE_CARDS);
-  if (totalDots <= 1) return;
-
-  const nextIndex = carouselIndex + carouselDirection;
-
-  if (nextIndex >= totalDots) {
-    // Llegó al final → reversa
-    carouselDirection = -1;
-    moverCarrusel(carouselIndex - 1);
-  } else if (nextIndex < 0) {
-    // Llegó al inicio → adelante
-    carouselDirection = 1;
-    moverCarrusel(carouselIndex + 1);
-  } else {
-    moverCarrusel(nextIndex);
+  // Botón seleccionar
+  if (selectBtn) {
+    selectBtn.addEventListener('click', () => {
+      if (filtered.length === 0) return;
+      const p = filtered[activeIdx];
+      window.open(`personajes/index.html?id=${p.id}`, '_blank');
+    });
   }
-}
 
-function iniciarAutoplay() {
-  autoplayTimer = setInterval(avanzarCarrusel, 5000);
-}
+  // ── Buscador ────────────────────────────────────────────
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      if (!q) {
+        filtered = [...allPersonajes];
+      } else {
+        filtered = allPersonajes.filter(p => {
+          const matchNombre = p.nombre.toLowerCase().includes(q);
+          const matchTags   = (p.tags || []).some(t => t.toLowerCase().includes(q));
+          return matchNombre || matchTags;
+        });
+      }
+      activeIdx = 0;
+      buildCards();
+      resetAutoplay();
+    });
+  }
 
-function resetAutoplay() {
-  clearInterval(autoplayTimer);
-  iniciarAutoplay();
-}
+  // ── Carga de datos ──────────────────────────────────────
+  async function cargarPersonajes() {
+    try {
+      const res  = await fetch('data/personajes.json');
+      const data = await res.json();
+      allPersonajes = data.personajes || [];
+      filtered      = [...allPersonajes];
+      activeIdx     = 0;
+      buildCards();
+      startAutoplay();
+    } catch (err) {
+      console.warn('No se pudo cargar personajes.json:', err);
+      viewport.innerHTML = '<p class="pj-no-results">No se pudieron cargar los personajes.</p>';
+    }
+  }
+
+  cargarPersonajes();
+
+})();
 
 // ════════════════════════════════
 // COMING SOON ESCENARIOS
 // ════════════════════════════════
 const escenariosLink = document.getElementById('escenarios-link');
-const comingToast = document.getElementById('comingToast');
+const comingToast    = document.getElementById('comingToast');
 
 if (escenariosLink && comingToast) {
   escenariosLink.addEventListener('click', (e) => {
     e.preventDefault();
-
     comingToast.classList.add('show');
-
     setTimeout(() => {
       comingToast.classList.remove('show');
     }, 3000);
@@ -210,4 +351,3 @@ if (escenariosLink && comingToast) {
 // ════════════════════════════════
 initReveal();
 cargarEscenarios();
-cargarPersonajes();

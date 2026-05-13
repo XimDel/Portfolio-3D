@@ -66,7 +66,7 @@
       "nombre": "Hon-Go",
       "subtitulo": "El Guardian del Bosque",
       "descripcion": "Hon-Go es un personaje 3D de estilo fantástico inspirado en un hongo guerrero. Su diseño mezcla ternura, aventura y elementos naturales, destacando por su sombrero rojo texturizado, accesorios de cuero y una espada de madera que refuerzan su identidad como protector del bosque. El diseño combina materiales orgánicos como madera, cuero y musgo, creando un personaje con estilo caricaturesco, cálido y encantador. Hon-Go parece listo para proteger su pequeño reino natural, explorar senderos escondidos y acompañar historias llenas de magia y aventura.",
-      "tags": ["Guerrero", "Champiñón", "Espada", "Bosque"],
+      "tags": ["Guerrero", "Champiñón", "Espada", "Bosque", "Hongo"],
       "colores": ["#CC2222", "#4A7C3F", "#F5DEB3", "#8B4513", "#FFFFFF"],
       "imagen_thumbnail": "../assets/personajes/hon-go/thumbnail.png",
       "imagen_hero": "../assets/personajes/hon-go/thumbnail.png",
@@ -138,7 +138,7 @@
       "subtitulo": "El Vigía Oscuro",
       "descripcion": "Este dron tiene un diseño futurista, elegante y algo intimidante, con una estructura similar a un arácnido mecánico. Su cuerpo central es compacto y blindado, con una carcasa oscura de acabado metálico brillante que le da una apariencia tecnológica y avanzada. El detalle más llamativo es su visor rojo frontal, que funciona como si fuera un ojo de escaneo, aportándole una personalidad vigilante y misteriosa. Sus extremidades curvas y articuladas parecen estar diseñadas para desplazarse con precisión sobre distintas superficies, combinando movilidad terrestre con una estética de dron explorador. Las ruedas en sus patas le dan un aspecto funcional, como si pudiera patrullar, analizar terrenos o moverse silenciosamente en ambientes industriales, urbanos o de ciencia ficción.",
       "tags": ["Robot", "Metálico", "Futurista", "Dron"],
-      "colores": ["#2B2B2B", "#6B6B6B", "#CC2222", "#FFFFFF", "#9A9A9A"],
+      "colores": ["#6B6B6B", "#CC2222", "#2B2B2B", "#FFFFFF", "#9A9A9A"],
       "imagen_thumbnail": "../assets/personajes/redeye/thumbnail.png",
       "imagen_hero": "../assets/personajes/redeye/thumbnail.png",
       "vistas": {
@@ -166,6 +166,53 @@
         "../assets/personajes/redeye/wireframe-3.png"
       ],
       "modelo_glb": "../assets/personajes/redeye/modelo.glb"
+    },
+    {
+      "id": "muddy",
+      "nombre": "Muddy",
+      "subtitulo": "La criatura del Pantano",
+      "descripcion": "Muddy es una criatura estilizada inspirada en pantanos y bosques oscuros. Su cuerpo negro brillante, sus patas anaranjadas y sus astas con forma de ramas secas le dan una apariencia misteriosa y fantástica. El diseño busca combinar fantasía y rareza, creando un personaje que parece habitar en zonas húmedas, silenciosas y llenas de magia natural. Este personaje fue creado con un enfoque estilizado en 3D, buscando una mezcla entre rareza y fantasía, ideal para un universo de criaturas del bosque, videojuegos indie o concept art narrativo.",
+      "tags": ["Pantano", "Criatura", "Fantasia", "Bosque"],
+      "colores": ["#C34A01", "#0D0D0D", "#FFFFFF", "#D9D2C5"],
+      "imagen_thumbnail": "../assets/personajes/muddy/thumbnail.png",
+      "imagen_hero": "../assets/personajes/muddy/thumbnail.png",
+      "vistas": {
+        "frente": "../assets/personajes/muddy/frente.png",
+        "atras": "../assets/personajes/muddy/atras.png",
+        "lado_derecho": "../assets/personajes/muddy/lado-derecho.png",
+        "lado_izquierdo": "../assets/personajes/muddy/lado-izquierdo.png"
+      },
+      "herramientas": ["Maya", "Arnold Render"],
+      "especificaciones": {
+        "poligonos": "5,416",
+        "vertices": "5,474",
+        "texturas": "2K"
+      },
+      "detalles": [
+        {
+          "nombre": "Detalle 1",
+          "imagen": "../assets/personajes/muddy/detalle-1.png"
+        },
+        {
+          "nombre": "Detalle 2",
+          "imagen": "../assets/personajes/muddy/detalle-2.png"
+        },
+        {
+          "nombre": "Detalle 3",
+          "imagen": "../assets/personajes/muddy/detalle-3.png"
+        },
+        {
+          "nombre": "Detalle 4",
+          "imagen": "../assets/personajes/muddy/detalle-4.png"
+        }
+      ],
+      "concepto_original": "../assets/personajes/muddy/concepto.png",
+      "wireframes": [
+        "../assets/personajes/muddy/wireframe-1.png",
+        "../assets/personajes/muddy/wireframe-2.png",
+        "../assets/personajes/muddy/wireframe-3.png"
+      ],
+      "modelo_glb": "../assets/personajes/muddy/modelo.glb"
     }
   ]
 }

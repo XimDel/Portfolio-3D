@@ -35,7 +35,8 @@
     <button class="nav-toggle" aria-label="Abrir menú">☰</button>
   </nav>
 
-    <div class="coming-toast" id="comingToast">
+  <!-- COMING SOON TOAST -->
+  <div class="coming-toast" id="comingToast">
     ✨ Estamos preparando nuevos escenarios increíbles. Coming Soon.
   </div>
 
@@ -176,30 +177,90 @@
     </div>
   </section>
 
-  <!-- ESCENARIOS 
-  <section class="showcase" id="escenarios">
-    <div class="showcase-header reveal-up">
-      <h2 class="showcase-title escenarios-color">ESCENARIOS ✦</h2>
-    </div>
-    <div class="showcase-grid" id="escenarios-grid">
-      <div class="showcase-placeholder"></div>
-      <div class="showcase-placeholder"></div>
-      <div class="showcase-placeholder"></div>
-      <div class="showcase-placeholder"></div>
-    </div>
-  </section> -->
-
   <!-- PERSONAJES -->
-  <section class="showcase" id="personajes">
-    <div class="showcase-header reveal-up">
-      <h2 class="showcase-title personajes-color">PERSONAJES ✦</h2>
-    </div>
-    <div class="showcase-carousel-wrapper">
-      <button class="carousel-btn prev" id="prev-personaje" aria-label="Anterior">‹</button>
-      <div class="showcase-carousel" id="personajes-carousel"></div>
-      <button class="carousel-btn next" id="next-personaje" aria-label="Siguiente">›</button>
-    </div>
-    <div class="carousel-dots" id="carousel-dots"></div>
+  <section id="personajes">
+    <div class="showcase" style="padding-top: 1rem;">
+      <div class="personajes-widget">
+
+        <!-- Top bar -->
+        <div class="pj-topbar">
+          <div class="pj-title-row">
+            <span class="pj-title">PERSONAJES</span>
+            <span class="pj-title-star">✦</span>
+          </div>
+          <div class="pj-search-row">
+            <div class="pj-search-box">
+              <!-- Lupa SVG inline -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                <circle cx="11" cy="11" r="7"/>
+                <line x1="17" y1="17" x2="22" y2="22"/>
+              </svg>
+              <input
+                type="text"
+                id="pj-search"
+                placeholder="Buscar personaje..."
+                autocomplete="off"
+                aria-label="Buscar personaje por nombre o tag"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Contador -->
+        <div class="pj-counter">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+          </svg>
+          <span id="pj-counter-text">0 / 0</span>
+        </div>
+
+        <!-- Stage con carrusel -->
+        <div class="pj-stage">
+          <!-- Flecha izquierda -->
+          <button class="pj-arrow left" id="pj-arrow-left" aria-label="Personaje anterior">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+          </button>
+
+          <!-- Viewport de tarjetas -->
+          <div class="pj-viewport" id="pj-viewport"></div>
+
+          <!-- Info del personaje central -->
+          <div class="pj-center-info" id="pj-center-info">
+            <div class="pj-center-info-card">
+              <div class="pj-center-name" id="pj-center-name"></div>
+              <div class="pj-center-sub">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                  <path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/>
+                  <circle cx="12" cy="9" r="2.5"/>
+                </svg>
+                <span id="pj-center-sub"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botón conoce a -->
+          <button class="pj-select-btn" id="pj-select-btn" aria-label="Conoce a este personaje">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            </svg>
+            <span id="pj-select-text">CONOCE A</span>
+          </button>
+
+          <!-- Flecha derecha -->
+          <button class="pj-arrow right" id="pj-arrow-right" aria-label="Personaje siguiente">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Dots de paginación -->
+        <div class="pj-dots" id="pj-dots"></div>
+
+      </div><!-- /.personajes-widget -->
+    </div><!-- /.showcase -->
   </section>
 
   <!-- CTA FINAL -->
