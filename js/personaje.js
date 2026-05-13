@@ -44,18 +44,13 @@ const SPEC_LABELS = {
 
 /* ════════════════════════════════════════════
    GRADIENT MESH — canvas animado
-   Toma los primeros 4 colores del personaje,
-   los desatura y aclara, y los anima como
-   4 puntos de color flotantes sobre fondo blanco.
 ════════════════════════════════════════════ */
 
-// Convierte hex "#RRGGBB" → { r, g, b }
 function hexToRgb(hex) {
   const m = hex.replace('#','').match(/.{2}/g);
   return { r: parseInt(m[0],16), g: parseInt(m[1],16), b: parseInt(m[2],16) };
 }
 
-// Mezcla un color con blanco para aclararlo (t: 0=original, 1=blanco puro)
 function tintWithWhite({ r, g, b }, t) {
   return {
     r: Math.round(r + (255 - r) * t),
@@ -64,7 +59,6 @@ function tintWithWhite({ r, g, b }, t) {
   };
 }
 
-// Desatura un color RGB (mezcla con su luminosidad en escala de grises)
 function desaturate({ r, g, b }, amount) {
   const gray = r * 0.299 + g * 0.587 + b * 0.114;
   return {
@@ -74,8 +68,6 @@ function desaturate({ r, g, b }, amount) {
   };
 }
 
-// Procesa un hex crudo → pastel suave visible pero no agresivo
-// desatura 35% + aclara 60%
 function processColor(hex) {
   let c = hexToRgb(hex);
   c = desaturate(c, 0.35);
@@ -90,15 +82,13 @@ function initGradientMesh(rawColors) {
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
 
-  // Procesa los primeros 4 colores
   const colors = [
-  processColor(rawColors[0]),
-  processColor(rawColors[1]),
-  processColor(rawColors[2]),
-  processColor(rawColors[0]),
-];
+    processColor(rawColors[0]),
+    processColor(rawColors[1]),
+    processColor(rawColors[2]),
+    processColor(rawColors[0]),
+  ];
 
-  // Tamaño del canvas = viewport
   function resize() {
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -106,7 +96,6 @@ function initGradientMesh(rawColors) {
   resize();
   window.addEventListener('resize', resize);
 
-  // Puntos con radios más contenidos (0.45–0.55 del lado menor)
   const points = [
     { x: 0.15, y: 0.15, vx:  0.00018, vy:  0.00012, r: 0.52 },
     { x: 0.82, y: 0.25, vx: -0.00014, vy:  0.00020, r: 0.48 },
@@ -120,12 +109,10 @@ function initGradientMesh(rawColors) {
     const W = canvas.width;
     const H = canvas.height;
 
-    // Fondo base blanco puro
     ctx.globalCompositeOperation = 'source-over';
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, W, H);
 
-    // Cada punto: gradiente radial con opacidad baja
     points.forEach((p, i) => {
       const cx = p.x * W;
       const cy = p.y * H;
@@ -133,23 +120,19 @@ function initGradientMesh(rawColors) {
 
       const { r, g, b } = colors[i];
       const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
-      // opacidad máxima en el centro, cae a 0 en el borde
       grad.addColorStop(0,    `rgba(${r},${g},${b}, 0.70)`);
       grad.addColorStop(0.35, `rgba(${r},${g},${b}, 0.35)`);
       grad.addColorStop(1,    `rgba(${r},${g},${b}, 0.00)`);
 
-      // source-over: se superponen suavemente sin oscurecer
       ctx.globalCompositeOperation = 'source-over';
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, W, H);
     });
 
-    // Mueve los puntos (velocidad varía suavemente con seno)
     points.forEach((p, i) => {
       p.x += p.vx * 1.5 * (1 + 0.4 * Math.sin(ts * 0.0003 + i * 1.7));
       p.y += p.vy * 1.5 * (1 + 0.4 * Math.cos(ts * 0.0004 + i * 2.1));
 
-      // Rebote suave en los límites
       if (p.x < bounds.min || p.x > bounds.max) p.vx *= -1;
       if (p.y < bounds.min || p.y > bounds.max) p.vy *= -1;
     });
@@ -157,7 +140,6 @@ function initGradientMesh(rawColors) {
     meshRAF = requestAnimationFrame(draw);
   }
 
-  // Cancela animación previa si existía (cambio de personaje)
   if (meshRAF) cancelAnimationFrame(meshRAF);
   meshRAF = requestAnimationFrame(draw);
 }
@@ -212,6 +194,13 @@ function initDetallesCarrusel() {
   const prevBtn = document.getElementById('detalles-prev');
   const nextBtn = document.getElementById('detalles-next');
 
+  // ── Ocultar flechas si todas las imágenes caben en pantalla ──
+  if (total <= DETALLES_VISIBLE) {
+    if (prevBtn) prevBtn.style.display = 'none';
+    if (nextBtn) nextBtn.style.display = 'none';
+    return;
+  }
+
   function update() {
     const itemWidth = track.querySelector('.p-detalle-item')?.offsetWidth || 0;
     const gap = 16;
@@ -259,7 +248,6 @@ async function cargarPersonaje() {
 
     document.title = `${p.nombre} | Portafolio 3D`;
 
-    // ── GRADIENT MESH con colores del personaje ──
     if (p.colores?.length >= 4) {
       initGradientMesh(p.colores);
     }
@@ -282,7 +270,7 @@ async function cargarPersonaje() {
     const tagsEl = document.getElementById('p-tags');
     tagsEl.innerHTML = p.tags.map(t => `<span class="p-tag">${t}</span>`).join('');
 
-    // ── VISTAS ──
+    // ── VISTAS (con data-group para lightbox) ──
     const vistasGrid = document.getElementById('p-vistas-grid');
     const vistasMap  = {
       frente:         'FRENTE',
@@ -292,7 +280,7 @@ async function cargarPersonaje() {
     };
     vistasGrid.innerHTML = Object.entries(vistasMap).map(([key, label]) => `
       <div class="p-vista-item">
-        <img src="${p.vistas[key]}" alt="${label}" loading="lazy"/>
+        <img src="${p.vistas[key]}" alt="${label}" loading="lazy" data-group="vistas"/>
         <span class="p-vista-label">${label}</span>
       </div>
     `).join('');
@@ -330,12 +318,12 @@ async function cargarPersonaje() {
         </div>
       `).join('');
 
-    // ── DETALLES ──
+    // ── DETALLES (con data-group) ──
     const detallesTrack = document.getElementById('p-detalles-track');
     const detallesSource = p.detalles || p.poses || [];
     detallesTrack.innerHTML = detallesSource.map(item => `
       <div class="p-detalle-item">
-        <img src="${item.imagen}" alt="${item.nombre}" loading="lazy"/>
+        <img src="${item.imagen}" alt="${item.nombre}" loading="lazy" data-group="detalles"/>
         <span class="p-detalle-label">${item.nombre}</span>
       </div>
     `).join('');
@@ -345,10 +333,10 @@ async function cargarPersonaje() {
     conceptoImg.src = p.concepto_original;
     conceptoImg.alt = `Concepto ${p.nombre}`;
 
-    // ── WIREFRAMES ──
+    // ── WIREFRAMES (con data-group) ──
     const wireframeTrack = document.getElementById('p-wireframe-track');
     wireframeTrack.innerHTML = p.wireframes.map(wf => `
-      <img src="${wf}" alt="Wireframe" loading="lazy"/>
+      <img src="${wf}" alt="Wireframe" loading="lazy" data-group="wireframes"/>
     `).join('');
 
     // ── MODELO 3D ──
@@ -364,28 +352,6 @@ async function cargarPersonaje() {
           environment-image="neutral"
           style="width:100%;height:100%;min-height:220px;border-radius:10px;"
         ></model-viewer>`;
-/*
-modelWrap.innerHTML = `
-  <model-viewer
-    src="${p.modelo_glb}"
-    alt="Modelo 3D de ${p.nombre}"
-    poster="${p.imagen_hero}"
-    auto-rotate
-    auto-rotate-delay="500"
-    rotation-per-second="18deg"
-    camera-controls
-    shadow-intensity="1.2"
-    shadow-softness="0.7"
-    environment-image="legacy"
-    exposure="1.1"
-    tone-mapping="commerce"
-    min-camera-orbit="auto 60deg auto"
-    max-camera-orbit="auto 120deg auto"
-    style="width:100%;height:100%;min-height:220px;border-radius:10px;"
-  ></model-viewer>
-`;
-
-*/
     } else {
       modelWrap.innerHTML = `
         <div class="p-model-placeholder">
@@ -414,52 +380,152 @@ modelWrap.innerHTML = `
   }
 }
 
-    // ════════════════════════════════
-    // LIGHTBOX
-    // ════════════════════════════════
-    function initLightbox() {
-      const selectores = [
-        '.p-vista-item img',
-        '.p-detalle-item img',
-        '.p-concepto img',
-        '.p-wireframe-track img',
-      ];
-      document.querySelectorAll(selectores.join(', ')).forEach(img => {
-        img.style.cursor = 'zoom-in';
-        img.addEventListener('click', () => abrirLightbox(img.src, img.alt));
-      });
+// ════════════════════════════════
+// LIGHTBOX con navegación por grupo
+// ════════════════════════════════
+
+// Registro de grupos: group-name → [{ src, alt }]
+const lightboxGroups = {};
+let lbCurrentGroup = null;
+let lbCurrentIndex = 0;
+
+function registerLightboxGroup(groupName, imgEl) {
+  if (!lightboxGroups[groupName]) lightboxGroups[groupName] = [];
+  // Evitar duplicados por src
+  if (!lightboxGroups[groupName].find(x => x.src === imgEl.src)) {
+    lightboxGroups[groupName].push({ src: imgEl.src, alt: imgEl.alt });
+  }
+}
+
+function initLightbox() {
+  const selectores = [
+    '.p-vista-item img',
+    '.p-detalle-item img',
+    '.p-concepto img',
+    '.p-wireframe-track img',
+  ];
+
+  // Limpiar grupos previos
+  for (const k in lightboxGroups) delete lightboxGroups[k];
+
+  document.querySelectorAll(selectores.join(', ')).forEach(img => {
+    // Determinar el grupo por data-group o por contenedor
+    let group = img.dataset.group;
+    if (!group) {
+      if (img.closest('.p-concepto')) group = 'concepto';
+      else group = 'misc';
     }
 
-    function abrirLightbox(src, alt = '') {
-      document.querySelector('.lightbox-overlay')?.remove();
-      const overlay = document.createElement('div');
-      overlay.className = 'lightbox-overlay';
-      const imgEl = document.createElement('img');
-      imgEl.src = src;
-      imgEl.alt = alt;
-      const closeBtn = document.createElement('button');
-      closeBtn.className = 'lightbox-close';
-      closeBtn.innerHTML = '✕';
-      closeBtn.setAttribute('aria-label', 'Cerrar');
-      overlay.appendChild(imgEl);
-      overlay.appendChild(closeBtn);
-      document.body.appendChild(overlay);
-      overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) cerrarLightbox(overlay);
-      });
-      closeBtn.addEventListener('click', () => cerrarLightbox(overlay));
-      document.addEventListener('keydown', function onKey(e) {
-        if (e.key === 'Escape') {
-          cerrarLightbox(overlay);
-          document.removeEventListener('keydown', onKey);
-        }
-      });
-    }
+    registerLightboxGroup(group, img);
 
-    function cerrarLightbox(overlay) {
-      overlay.style.opacity = '0';
-      overlay.style.transition = 'opacity 0.2s ease';
-      setTimeout(() => overlay.remove(), 200);
-    }
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => {
+      const items = lightboxGroups[group] || [];
+      const idx   = items.findIndex(x => x.src === img.src);
+      abrirLightbox(group, idx < 0 ? 0 : idx);
+    });
+  });
+}
 
-    cargarPersonaje();
+function abrirLightbox(group, index) {
+  document.querySelector('.lightbox-overlay')?.remove();
+
+  lbCurrentGroup = group;
+  lbCurrentIndex = index;
+
+  const items = lightboxGroups[group] || [];
+  const hasPrev = () => lbCurrentIndex > 0;
+  const hasNext = () => lbCurrentIndex < items.length - 1;
+
+  // ── Construir overlay ──
+  const overlay = document.createElement('div');
+  overlay.className = 'lightbox-overlay';
+
+  const imgEl = document.createElement('img');
+  imgEl.className = 'lightbox-img';
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'lightbox-close';
+  closeBtn.innerHTML = '✕';
+  closeBtn.setAttribute('aria-label', 'Cerrar');
+
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'lightbox-nav lightbox-nav--prev';
+  prevBtn.innerHTML = '‹';
+  prevBtn.setAttribute('aria-label', 'Anterior');
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'lightbox-nav lightbox-nav--next';
+  nextBtn.innerHTML = '›';
+  nextBtn.setAttribute('aria-label', 'Siguiente');
+
+  const counter = document.createElement('span');
+  counter.className = 'lightbox-counter';
+
+  overlay.appendChild(prevBtn);
+  overlay.appendChild(imgEl);
+  overlay.appendChild(nextBtn);
+  overlay.appendChild(closeBtn);
+  // Mostrar contador sólo si hay más de una imagen en el grupo
+  if (items.length > 1) overlay.appendChild(counter);
+
+  document.body.appendChild(overlay);
+
+  function render() {
+    const cur = items[lbCurrentIndex];
+    if (!cur) return;
+
+    // Animación de fade al cambiar imagen
+    imgEl.style.opacity = '0';
+    imgEl.style.transform = 'scale(0.96)';
+    setTimeout(() => {
+      imgEl.src = cur.src;
+      imgEl.alt = cur.alt;
+      imgEl.style.opacity = '1';
+      imgEl.style.transform = 'scale(1)';
+    }, 100);
+
+    prevBtn.style.display = items.length > 1 ? 'flex' : 'none';
+    nextBtn.style.display = items.length > 1 ? 'flex' : 'none';
+    prevBtn.style.opacity = hasPrev() ? '1' : '0.25';
+    nextBtn.style.opacity = hasNext() ? '1' : '0.25';
+    prevBtn.style.pointerEvents = hasPrev() ? 'auto' : 'none';
+    nextBtn.style.pointerEvents = hasNext() ? 'auto' : 'none';
+    counter.textContent = `${lbCurrentIndex + 1} / ${items.length}`;
+  }
+
+  render();
+
+  prevBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (hasPrev()) { lbCurrentIndex--; render(); }
+  });
+
+  nextBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (hasNext()) { lbCurrentIndex++; render(); }
+  });
+
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) cerrarLightbox(overlay);
+  });
+
+  closeBtn.addEventListener('click', () => cerrarLightbox(overlay));
+
+  function onKey(e) {
+    if (e.key === 'Escape')       { cerrarLightbox(overlay); document.removeEventListener('keydown', onKey); }
+    if (e.key === 'ArrowLeft'  && hasPrev()) { lbCurrentIndex--; render(); }
+    if (e.key === 'ArrowRight' && hasNext()) { lbCurrentIndex++; render(); }
+  }
+  document.addEventListener('keydown', onKey);
+  overlay._cleanupKey = onKey;
+}
+
+function cerrarLightbox(overlay) {
+  if (overlay._cleanupKey) document.removeEventListener('keydown', overlay._cleanupKey);
+  overlay.style.opacity = '0';
+  overlay.style.transition = 'opacity 0.2s ease';
+  setTimeout(() => overlay.remove(), 200);
+}
+
+cargarPersonaje();
