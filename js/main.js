@@ -27,7 +27,7 @@ function initReveal() {
 }
 
 // ════════════════════════════════
-// NAVBAR toggle mobile
+// NAVBAR — toggle mobile + active por scroll
 // ════════════════════════════════
 const navToggle = document.querySelector('.nav-toggle');
 const navLinks  = document.querySelector('.nav-links');
@@ -41,6 +41,62 @@ if (navToggle) {
 document.querySelectorAll('.nav-links a').forEach(link => {
   link.addEventListener('click', () => navLinks.classList.remove('open'));
 });
+
+// ── Activo por sección visible ──────────────────────────
+const NAV_SECTIONS = [
+  { href: 'index.html',    id: null        }, 
+  { href: '#about',        id: 'about'     },
+  { href: '#skills',       id: 'skills'    },
+  { href: '#escenarios',   id: 'escenarios'}, 
+  { href: '#personajes',   id: 'personajes'},
+  { href: '#contact',      id: 'contact'   },
+];
+
+function setActiveNavLink(activeHref) {
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    const linkHref = link.getAttribute('href');
+    link.classList.toggle('active', linkHref === activeHref);
+  });
+}
+
+function initNavScrollSpy() {
+  const sections = NAV_SECTIONS
+    .filter(s => s.id && document.getElementById(s.id))
+    .map(s => ({ el: document.getElementById(s.id), href: s.href }));
+
+  if (sections.length === 0) return;
+
+  const spyObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const match = sections.find(s => s.el === entry.target);
+          if (match) setActiveNavLink(match.href);
+        }
+      });
+    },
+    {
+      threshold: 0,
+      rootMargin: '-10% 0px -75% 0px'
+    }
+  );
+
+  sections.forEach(s => spyObserver.observe(s.el));
+
+  const heroObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) setActiveNavLink('index.html');
+      });
+    },
+    { threshold: 0.1 }
+  );
+
+  const hero = document.querySelector('.hero');
+  if (hero) heroObserver.observe(hero);
+}
+
+initNavScrollSpy();
 
 // ════════════════════════════════
 // CARGA DINÁMICA DE ESCENARIOS
@@ -92,10 +148,9 @@ async function cargarEscenarios() {
   let activeIdx     = 0;
   let isAnimating   = false;
   let autoplayTimer = null;
-  const AUTOPLAY_MS = 7000; // gira solo cada 7 s
+  const AUTOPLAY_MS = 7000;
 
-  // ── Slots visuales: posición relativa respecto al centro ─
-  // Se muestran 5 tarjetas: -2, -1, 0 (centro), +1, +2
+  // ── Slots visuales ──────────────────────────────────────
   const SLOTS = [
     { offset: -2, x: -290, scale: 0.68, opacity: 1.0, z: 1 },
     { offset: -1, x: -160, scale: 0.86, opacity: 1.0, z: 2 },
@@ -117,7 +172,7 @@ async function cargarEscenarios() {
   const arrowLeft   = document.getElementById('pj-arrow-left');
   const arrowRight  = document.getElementById('pj-arrow-right');
 
-  if (!viewport) return; // sección no presente en esta página
+  if (!viewport) return;
 
   // ── Construir tarjetas ──────────────────────────────────
   function buildCards() {
@@ -138,7 +193,6 @@ async function cargarEscenarios() {
       const p = filtered[dataIdx];
       const color = (p.colores && p.colores[0]) ? p.colores[0] : '#aaaaaa';
 
-      // Tamaños proporcionales al slot
       const imgW = Math.round(65 + slot.scale * 130);
       const imgH = Math.round(85 + slot.scale * 195);
 
@@ -148,7 +202,6 @@ async function cargarEscenarios() {
       card.style.opacity   = slot.opacity;
       card.style.zIndex    = slot.z;
 
-      // Resplandor — solo para el centro, detrás de la imagen
       const glow = document.createElement('div');
       glow.className = 'pj-glow';
       glow.style.width      = Math.round(imgW * 0.75) + 'px';
@@ -159,7 +212,6 @@ async function cargarEscenarios() {
       glow.style.bottom     = '10%';
       glow.style.top        = 'auto';
 
-      // Imagen — z-index por encima del glow
       const img = document.createElement('img');
       img.src    = p.imagen_thumbnail;
       img.alt    = p.nombre;
@@ -169,7 +221,6 @@ async function cargarEscenarios() {
       img.style.position = 'relative';
       img.style.zIndex   = '1';
 
-      // Plataforma
       const platform = document.createElement('div');
       platform.className = 'pj-platform';
 
@@ -179,7 +230,6 @@ async function cargarEscenarios() {
       imgWrap.appendChild(img);
       imgWrap.appendChild(platform);
 
-      // Etiqueta y punto de color (ocultos en el centro, info va en overlay)
       const label = document.createElement('div');
       label.className   = 'pj-card-label';
       label.textContent = p.nombre.toUpperCase();
@@ -194,7 +244,6 @@ async function cargarEscenarios() {
       card.appendChild(label);
       card.appendChild(dot);
 
-      // Click en tarjetas laterales → navegar hacia ese lado
       if (slot.offset !== 0) {
         card.addEventListener('click', () => {
           navigate(slot.offset > 0 ? 1 : -1);
@@ -209,7 +258,6 @@ async function cargarEscenarios() {
     updateCounter();
   }
 
-  // ── Info del centro ─────────────────────────────────────
   function updateCenterInfo() {
     if (filtered.length === 0) return;
     const p = filtered[activeIdx];
@@ -219,7 +267,6 @@ async function cargarEscenarios() {
     centerInfo.classList.add('show');
   }
 
-  // ── Dots de paginación ──────────────────────────────────
   function updateDots() {
     dotsEl.innerHTML = '';
     filtered.forEach((_, i) => {
@@ -235,14 +282,12 @@ async function cargarEscenarios() {
     });
   }
 
-  // ── Contador ────────────────────────────────────────────
   function updateCounter() {
     if (counterEl) {
       counterEl.textContent = filtered.length + ' / ' + allPersonajes.length;
     }
   }
 
-  // ── Navegación ──────────────────────────────────────────
   function navigate(dir) {
     if (isAnimating || filtered.length <= 1) return;
     isAnimating = true;
@@ -251,38 +296,20 @@ async function cargarEscenarios() {
     setTimeout(() => { isAnimating = false; }, 450);
   }
 
-  // ── Autoplay ────────────────────────────────────────────
   function startAutoplay() {
     stopAutoplay();
-    autoplayTimer = setInterval(() => {
-      navigate(1); // avanza un paso a la derecha
-    }, AUTOPLAY_MS);
+    autoplayTimer = setInterval(() => navigate(1), AUTOPLAY_MS);
   }
 
   function stopAutoplay() {
-    if (autoplayTimer) {
-      clearInterval(autoplayTimer);
-      autoplayTimer = null;
-    }
+    if (autoplayTimer) { clearInterval(autoplayTimer); autoplayTimer = null; }
   }
 
-  function resetAutoplay() {
-    stopAutoplay();
-    startAutoplay();
-  }
+  function resetAutoplay() { stopAutoplay(); startAutoplay(); }
 
-  // ── Eventos de flechas ──────────────────────────────────
-  arrowLeft.addEventListener('click', () => {
-    navigate(-1);
-    resetAutoplay();
-  });
+  arrowLeft.addEventListener('click', () => { navigate(-1); resetAutoplay(); });
+  arrowRight.addEventListener('click', () => { navigate(1); resetAutoplay(); });
 
-  arrowRight.addEventListener('click', () => {
-    navigate(1);
-    resetAutoplay();
-  });
-
-  // Botón seleccionar
   if (selectBtn) {
     selectBtn.addEventListener('click', () => {
       if (filtered.length === 0) return;
@@ -291,26 +318,21 @@ async function cargarEscenarios() {
     });
   }
 
-  // ── Buscador ────────────────────────────────────────────
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
       const q = e.target.value.trim().toLowerCase();
-      if (!q) {
-        filtered = [...allPersonajes];
-      } else {
-        filtered = allPersonajes.filter(p => {
-          const matchNombre = p.nombre.toLowerCase().includes(q);
-          const matchTags   = (p.tags || []).some(t => t.toLowerCase().includes(q));
-          return matchNombre || matchTags;
-        });
-      }
+      filtered = !q
+        ? [...allPersonajes]
+        : allPersonajes.filter(p =>
+            p.nombre.toLowerCase().includes(q) ||
+            (p.tags || []).some(t => t.toLowerCase().includes(q))
+          );
       activeIdx = 0;
       buildCards();
       resetAutoplay();
     });
   }
 
-  // ── Carga de datos ──────────────────────────────────────
   async function cargarPersonajes() {
     try {
       const res  = await fetch('data/personajes.json');
@@ -340,9 +362,7 @@ if (escenariosLink && comingToast) {
   escenariosLink.addEventListener('click', (e) => {
     e.preventDefault();
     comingToast.classList.add('show');
-    setTimeout(() => {
-      comingToast.classList.remove('show');
-    }, 3000);
+    setTimeout(() => comingToast.classList.remove('show'), 3000);
   });
 }
 
