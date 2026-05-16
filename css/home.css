@@ -563,7 +563,7 @@ body {
    PERSONAJES — CARRUSEL REDISEÑADO
 ═══════════════════════════════════════════ */
 #personajes {
-  padding: 2rem 2rem 5rem;
+  padding: 2rem 2rem 1rem;
   max-width: 1000px;
   margin: 0 auto 2rem auto;
 }
@@ -928,7 +928,7 @@ body {
    CTA FINAL
 ═══════════════════════════════════════════ */
 .cta-final {
-  padding: 3rem 2rem;
+  padding: 1.5rem 2rem;
   display: flex;
   justify-content: center;
 }
