@@ -194,7 +194,6 @@ function initDetallesCarrusel() {
   const prevBtn = document.getElementById('detalles-prev');
   const nextBtn = document.getElementById('detalles-next');
 
-  // ── Ocultar flechas si todas las imágenes caben en pantalla ──
   if (total <= DETALLES_VISIBLE) {
     if (prevBtn) prevBtn.style.display = 'none';
     if (nextBtn) nextBtn.style.display = 'none';
@@ -373,6 +372,9 @@ async function cargarPersonaje() {
     initDetallesCarrusel();
     initLightbox();
 
+    // ── Iniciar animaciones de scroll ──
+    initAllAnimations();
+
   } catch (err) {
     console.error(err);
     loadingEl.classList.add('hidden');
@@ -384,14 +386,12 @@ async function cargarPersonaje() {
 // LIGHTBOX con navegación por grupo
 // ════════════════════════════════
 
-// Registro de grupos: group-name → [{ src, alt }]
 const lightboxGroups = {};
 let lbCurrentGroup = null;
 let lbCurrentIndex = 0;
 
 function registerLightboxGroup(groupName, imgEl) {
   if (!lightboxGroups[groupName]) lightboxGroups[groupName] = [];
-  // Evitar duplicados por src
   if (!lightboxGroups[groupName].find(x => x.src === imgEl.src)) {
     lightboxGroups[groupName].push({ src: imgEl.src, alt: imgEl.alt });
   }
@@ -405,11 +405,9 @@ function initLightbox() {
     '.p-wireframe-track img',
   ];
 
-  // Limpiar grupos previos
   for (const k in lightboxGroups) delete lightboxGroups[k];
 
   document.querySelectorAll(selectores.join(', ')).forEach(img => {
-    // Determinar el grupo por data-group o por contenedor
     let group = img.dataset.group;
     if (!group) {
       if (img.closest('.p-concepto')) group = 'concepto';
@@ -437,7 +435,6 @@ function abrirLightbox(group, index) {
   const hasPrev = () => lbCurrentIndex > 0;
   const hasNext = () => lbCurrentIndex < items.length - 1;
 
-  // ── Construir overlay ──
   const overlay = document.createElement('div');
   overlay.className = 'lightbox-overlay';
 
@@ -466,7 +463,6 @@ function abrirLightbox(group, index) {
   overlay.appendChild(imgEl);
   overlay.appendChild(nextBtn);
   overlay.appendChild(closeBtn);
-  // Mostrar contador sólo si hay más de una imagen en el grupo
   if (items.length > 1) overlay.appendChild(counter);
 
   document.body.appendChild(overlay);
@@ -475,7 +471,6 @@ function abrirLightbox(group, index) {
     const cur = items[lbCurrentIndex];
     if (!cur) return;
 
-    // Animación de fade al cambiar imagen
     imgEl.style.opacity = '0';
     imgEl.style.transform = 'scale(0.96)';
     setTimeout(() => {
@@ -526,6 +521,178 @@ function cerrarLightbox(overlay) {
   overlay.style.opacity = '0';
   overlay.style.transition = 'opacity 0.2s ease';
   setTimeout(() => overlay.remove(), 200);
+}
+
+/* ════════════════════════════════════════════
+   ANIMACIONES DE SCROLL
+════════════════════════════════════════════ */
+
+// ── 1. Scroll Reveal general ──
+function initScrollReveal() {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+  );
+
+  document.querySelectorAll('.p-bottom-grid > .p-card').forEach((el) => {
+    el.classList.add('reveal');
+    observer.observe(el);
+  });
+
+  const vistasSection = document.querySelector('.p-vistas-section');
+  if (vistasSection) {
+    vistasSection.classList.add('reveal');
+    observer.observe(vistasSection);
+  }
+
+  const infoRow = document.querySelector('.p-info-row');
+  if (infoRow) {
+    infoRow.classList.add('reveal-stagger');
+    infoRow.querySelectorAll('.p-sidebar-card').forEach((card) => {
+      card.classList.add('reveal');
+      observer.observe(card);
+    });
+  }
+}
+
+// ── 2. Vistas escalonadas ──
+function initVistasReveal() {
+  const grid = document.getElementById('p-vistas-grid');
+  if (!grid) return;
+  grid.classList.add('reveal-vistas');
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
+  observer.observe(grid);
+}
+
+// ── 3. Paleta en cascada ──
+function initPaletaReveal() {
+  const paleta = document.getElementById('p-paleta');
+  if (!paleta || paleta.children.length === 0) return;
+  paleta.classList.add('reveal-paleta');
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.8, rootMargin: '0px 0px -80px 0px' }
+  );
+  observer.observe(paleta);
+}
+
+// ── 4. Detalles reveal ──
+function initDetallesReveal() {
+  const section = document.querySelector('.p-detalles-section');
+  if (!section) return;
+  section.classList.add('reveal');
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }
+  );
+  observer.observe(section);
+}
+
+// ── 5. Contador animado en specs ──
+function animateCounter(el, target, duration = 1800) {
+  const suffix = target.replace(/^[\d,. ]+/, '');
+  const rawNum = parseFloat(target.replace(/[^0-9.]/g, ''));
+  if (isNaN(rawNum)) { el.textContent = target; return; }
+
+  const hasComma = /\d{4,}/.test(target.replace(/,/g, ''));
+  const start    = performance.now();
+  el.classList.add('counting');
+
+  function tick(now) {
+    const elapsed  = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased    = 1 - Math.pow(1 - progress, 3);
+    const current  = Math.round(rawNum * eased);
+    el.textContent = hasComma
+      ? current.toLocaleString('en-US') + suffix
+      : current + suffix;
+    if (progress < 1) requestAnimationFrame(tick);
+    else el.textContent = target;
+  }
+  requestAnimationFrame(tick);
+}
+
+function initSpecsCounter() {
+  const specsGrid = document.getElementById('p-specs-grid');
+  if (!specsGrid || specsGrid.children.length === 0) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.p-spec-value').forEach((el) => {
+            const original = el.dataset.original || el.textContent.trim();
+            el.dataset.original = original;
+            animateCounter(el, original);
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.85, rootMargin: '0px 0px -60px 0px' }
+  );
+  observer.observe(specsGrid);
+}
+
+// ── 6. Tags shimmer ──
+function initTagsShimmer() {
+  const tagsEl = document.getElementById('p-tags');
+  if (!tagsEl) return;
+
+  tagsEl.querySelectorAll('.p-tag').forEach((tag, i) => {
+    setTimeout(() => {
+      tag.classList.add('shimmer');
+      setTimeout(() => tag.classList.remove('shimmer'), 1000);
+    }, i * 120);
+  });
+}
+
+// ── Entry point ──
+// initHeroParallax eliminado: la imagen ahora usa position:sticky en CSS,
+// lo que da el efecto de "quedarse" en pantalla de forma nativa y sin JS.
+function initAllAnimations() {
+  requestAnimationFrame(() => {
+    initScrollReveal();
+    initVistasReveal();
+    initPaletaReveal();
+    initDetallesReveal();
+    initSpecsCounter();
+    initTagsShimmer();
+  });
 }
 
 cargarPersonaje();
