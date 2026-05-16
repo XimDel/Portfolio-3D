@@ -730,6 +730,25 @@ body {
   user-select: none;
 }
 
+/* ── HOVER ZOOM en tarjetas del carrusel ── */
+.pj-card:hover {
+  /* Se sobreescribe debajo para el centro vs laterales */
+}
+
+.pj-card.pj-card--center {
+  cursor: pointer;
+}
+
+.pj-card.pj-card--center:hover {
+  /* El transform base del centro es translateX(0) scale(1.08),
+     al hacer hover aumentamos el scale ligeramente */
+  transform: translateX(0px) scale(1.2) !important;
+}
+
+.pj-card.pj-card--side:hover {
+  filter: brightness(1.05);
+}
+
 .pj-card-img-wrap {
   position: relative;
   display: flex;

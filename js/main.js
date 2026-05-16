@@ -150,14 +150,24 @@ async function cargarEscenarios() {
   let autoplayTimer = null;
   const AUTOPLAY_MS = 7000;
 
-  // ── Slots visuales ──────────────────────────────────────
-  const SLOTS = [
+  // ── Slots visuales (5 posiciones para lista larga) ──────
+  const SLOTS_FULL = [
     { offset: -2, x: -290, scale: 0.68, opacity: 1.0, z: 1 },
     { offset: -1, x: -160, scale: 0.86, opacity: 1.0, z: 2 },
     { offset:  0, x:    0, scale: 1.08, opacity: 1.0, z: 4 },
     { offset:  1, x:  160, scale: 0.86, opacity: 1.0, z: 2 },
     { offset:  2, x:  290, scale: 0.68, opacity: 1.0, z: 1 },
   ];
+
+  // Slots reducidos según cuántos personajes haya en filtered
+  function getSlotsForCount(count) {
+    if (count >= 5) return SLOTS_FULL;
+    if (count === 4) return SLOTS_FULL.filter(s => s.offset !== -2);
+    if (count === 3) return SLOTS_FULL.filter(s => Math.abs(s.offset) <= 1);
+    if (count === 2) return SLOTS_FULL.filter(s => s.offset === 0 || s.offset === 1);
+    // count === 1: solo el centro
+    return SLOTS_FULL.filter(s => s.offset === 0);
+  }
 
   // ── Referencias DOM ─────────────────────────────────────
   const viewport    = document.getElementById('pj-viewport');
@@ -174,6 +184,11 @@ async function cargarEscenarios() {
 
   if (!viewport) return;
 
+  // ── Abrir vista de personaje ────────────────────────────
+  function openPersonaje(p) {
+    window.open(`personajes/index.html?id=${p.id}`, '_blank');
+  }
+
   // ── Construir tarjetas ──────────────────────────────────
   function buildCards() {
     viewport.innerHTML = '';
@@ -188,7 +203,11 @@ async function cargarEscenarios() {
 
     if (selectBtn) selectBtn.style.display = '';
 
-    SLOTS.forEach(slot => {
+    // Seleccionar slots según cantidad de personajes filtrados
+    const slots = getSlotsForCount(filtered.length);
+
+    slots.forEach(slot => {
+      // Solo mapear offsets que tengan un personaje único real
       const dataIdx = mod(activeIdx + slot.offset, filtered.length);
       const p = filtered[dataIdx];
       const color = (p.colores && p.colores[0]) ? p.colores[0] : '#aaaaaa';
@@ -198,6 +217,14 @@ async function cargarEscenarios() {
 
       const card = document.createElement('div');
       card.className = 'pj-card';
+
+      // Marcar la tarjeta central vs laterales para CSS hover
+      if (slot.offset === 0) {
+        card.classList.add('pj-card--center');
+      } else {
+        card.classList.add('pj-card--side');
+      }
+
       card.style.transform = `translateX(${slot.x}px) scale(${slot.scale})`;
       card.style.opacity   = slot.opacity;
       card.style.zIndex    = slot.z;
@@ -244,7 +271,13 @@ async function cargarEscenarios() {
       card.appendChild(label);
       card.appendChild(dot);
 
-      if (slot.offset !== 0) {
+      if (slot.offset === 0) {
+        // Click en personaje central → abrir vista del personaje
+        card.addEventListener('click', () => {
+          openPersonaje(p);
+        });
+      } else {
+        // Click en personajes laterales → navegar al carrusel
         card.addEventListener('click', () => {
           navigate(slot.offset > 0 ? 1 : -1);
         });
@@ -314,18 +347,23 @@ async function cargarEscenarios() {
     selectBtn.addEventListener('click', () => {
       if (filtered.length === 0) return;
       const p = filtered[activeIdx];
-      window.open(`personajes/index.html?id=${p.id}`, '_blank');
+      openPersonaje(p);
     });
+  }
+
+  // Normaliza texto quitando tildes/diacríticos para búsqueda flexible
+  function norm(str) {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
   }
 
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
-      const q = e.target.value.trim().toLowerCase();
+      const q = norm(e.target.value.trim());
       filtered = !q
         ? [...allPersonajes]
         : allPersonajes.filter(p =>
-            p.nombre.toLowerCase().includes(q) ||
-            (p.tags || []).some(t => t.toLowerCase().includes(q))
+            norm(p.nombre).includes(q) ||
+            (p.tags || []).some(t => norm(t).includes(q))
           );
       activeIdx = 0;
       buildCards();
