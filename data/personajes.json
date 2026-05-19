@@ -34,7 +34,8 @@
       "herramientas": [
         "Maya",
         "Substance Painter",
-        "Arnold Render"
+        "Arnold Render",
+        "Blender"
       ],
 
       "especificaciones": {
@@ -76,7 +77,7 @@
         "lado_derecho": "../assets/personajes/hon-go/lado-derecho.png",
         "lado_izquierdo": "../assets/personajes/hon-go/lado-izquierdo.png"
       },
-      "herramientas": ["Maya", "Substance Painter", "Arnold Render"],
+      "herramientas": ["Maya", "Substance Painter", "Arnold Render", "Blender"],
       "especificaciones": {
         "poligonos": "7,056",
         "vertices": "7,095",
@@ -112,7 +113,7 @@
         "lado_derecho": "../assets/personajes/robi/lado-derecho.png",
         "lado_izquierdo": "../assets/personajes/robi/lado-izquierdo.png"
       },
-      "herramientas": ["Maya", "Arnold Render"],
+      "herramientas": ["Maya", "Arnold Render", "Blender"],
       "especificaciones": {
         "poligonos": "9,472",
         "vertices": "9,576",
@@ -147,7 +148,7 @@
         "lado_derecho": "../assets/personajes/redeye/lado-derecho.png",
         "lado_izquierdo": "../assets/personajes/redeye/lado-izquierdo.png"
       },
-      "herramientas": ["Maya", "Arnold Render"],
+      "herramientas": ["Maya", "Arnold Render", "Blender"],
       "especificaciones": {
         "poligonos": "26,124",
         "vertices": "27,595",
@@ -182,7 +183,7 @@
         "lado_derecho": "../assets/personajes/muddy/lado-derecho.png",
         "lado_izquierdo": "../assets/personajes/muddy/lado-izquierdo.png"
       },
-      "herramientas": ["Maya", "Arnold Render"],
+      "herramientas": ["Maya", "Arnold Render", "PhotoShop", "Blender"],
       "especificaciones": {
         "poligonos": "5,416",
         "vertices": "5,474",
