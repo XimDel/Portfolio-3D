@@ -214,6 +214,53 @@
         "../assets/personajes/muddy/wireframe-3.png"
       ],
       "modelo_glb": "../assets/personajes/muddy/modelo.glb"
+    },
+    {
+      "id": "woody",
+      "nombre": "Woody",
+      "subtitulo": "El espíritu del Bosque",
+      "descripcion": "Woody es un personaje estilizado inspirado en la naturaleza y la madera tallada. Su cuerpo con textura de madera clara, sus ojos negros brillantes y la hoja verde que brota de su cabeza le dan una apariencia amigable, minimalista y orgánica. El diseño busca transmitir calma, curiosidad y conexión con la naturaleza, como si fuera una pequeña criatura nacida en un bosque mágico. Este personaje fue creado con un enfoque estilizado en 3D, combinando simplicidad y encanto visual, ideal para videojuegos indie, coleccionables o proyectos de concept art con temática natural.",
+      "tags": ["Bosque", "Naturaleza", "Criatura", "Fantasia"],
+      "colores": ["#A66A3F", "#6FBF4B", "#0D0D0D", "#E8DCCB"],
+      "imagen_thumbnail": "../assets/personajes/woody/thumbnail.png",
+      "imagen_hero": "../assets/personajes/woody/thumbnail.png",
+      "vistas": {
+        "frente": "../assets/personajes/woody/frente.png",
+        "atras": "../assets/personajes/woody/atras.png",
+        "lado_derecho": "../assets/personajes/woody/lado-derecho.png",
+        "lado_izquierdo": "../assets/personajes/woody/lado-izquierdo.png"
+      },
+      "herramientas": ["Maya", "Arnold Render", "PhotoShop", "Blender"],
+      "especificaciones": {
+        "poligonos": "5,416",
+        "vertices": "5,474",
+        "texturas": "2K"
+      },
+      "detalles": [
+        {
+          "nombre": "Detalle 1",
+          "imagen": "../assets/personajes/woody/detalle-1.png"
+        },
+        {
+          "nombre": "Detalle 2",
+          "imagen": "../assets/personajes/woody/detalle-2.png"
+        },
+        {
+          "nombre": "Detalle 3",
+          "imagen": "../assets/personajes/woody/detalle-3.png"
+        },
+        {
+          "nombre": "Detalle 4",
+          "imagen": "../assets/personajes/woody/detalle-4.png"
+        }
+      ],
+      "concepto_original": "../assets/personajes/woody/concepto.png",
+      "wireframes": [
+        "../assets/personajes/woody/wireframe-1.png",
+        "../assets/personajes/woody/wireframe-2.png",
+        "../assets/personajes/woody/wireframe-3.png"
+      ],
+      "modelo_glb": "../assets/personajes/woody/modelo.glb"
     }
   ]
 }
