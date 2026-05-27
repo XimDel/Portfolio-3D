@@ -68,7 +68,7 @@
       "subtitulo": "El Guardian del Bosque",
       "descripcion": "Hon-Go es un personaje 3D de estilo fantástico inspirado en un hongo guerrero. Su diseño mezcla ternura, aventura y elementos naturales, destacando por su sombrero rojo texturizado, accesorios de cuero y una espada de madera que refuerzan su identidad como protector del bosque. El diseño combina materiales orgánicos como madera, cuero y musgo, creando un personaje con estilo caricaturesco, cálido y encantador. Hon-Go parece listo para proteger su pequeño reino natural, explorar senderos escondidos y acompañar historias llenas de magia y aventura.",
       "tags": ["Guerrero", "Champiñón", "Espada", "Bosque", "Hongo"],
-      "colores": ["#CC2222", "#4A7C3F", "#F5DEB3", "#8B4513", "#FFFFFF"],
+      "colores": ["#4A7C3F","#CC2222", "#F5DEB3", "#8B4513", "#FFFFFF"],
       "imagen_thumbnail": "../assets/personajes/hon-go/thumbnail.png",
       "imagen_hero": "../assets/personajes/hon-go/thumbnail.png",
       "vistas": {
@@ -221,7 +221,7 @@
       "subtitulo": "El espíritu del Bosque",
       "descripcion": "Woody es un personaje estilizado inspirado en la naturaleza y la madera tallada. Su cuerpo con textura de madera clara, sus ojos negros brillantes y la hoja verde que brota de su cabeza le dan una apariencia amigable, minimalista y orgánica. El diseño busca transmitir calma, curiosidad y conexión con la naturaleza, como si fuera una pequeña criatura nacida en un bosque mágico. Este personaje fue creado con un enfoque estilizado en 3D, combinando simplicidad y encanto visual, ideal para videojuegos indie, coleccionables o proyectos de concept art con temática natural.",
       "tags": ["Bosque", "Naturaleza", "Criatura", "Fantasia"],
-      "colores": ["#A66A3F", "#6FBF4B", "#0D0D0D", "#E8DCCB"],
+      "colores": ["#6FBF4B", "#A66A3F", "#0D0D0D", "#E8DCCB"],
       "imagen_thumbnail": "../assets/personajes/woody/thumbnail.png",
       "imagen_hero": "../assets/personajes/woody/thumbnail.png",
       "vistas": {
